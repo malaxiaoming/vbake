@@ -154,8 +154,8 @@ export default function Home() {
           className="max-w-4xl mx-auto mt-6"
         >
           <p className="text-center text-lg italic">
-            "Best cake shop in Klang Valley! The surprise gift delivery was
-            perfect!" – Sarah L.
+            &quot;Best cake shop in Klang Valley! The surprise gift delivery was
+            perfect!&quot; – Sarah L.
           </p>
         </motion.div>
       </div>
