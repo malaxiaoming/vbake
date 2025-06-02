@@ -115,9 +115,11 @@ export default function Home() {
             className="text-center"
           >
             <Link href={category.link}>
-              <img
+              <Image
                 src={category.img}
                 alt={category.name}
+                width={300}
+                height={200}
                 className="rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer"
               />
             </Link>
