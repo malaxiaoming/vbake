@@ -66,7 +66,7 @@ export default function Home() {
 
       {/* Promotion Carousel */}
       <div className="max-w-4xl mx-auto mb-10">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">🎉 This Month's Promotions 🎉</h2>
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">🎉 This Month&apos;s Promotions 🎉</h2>
         {Swiper && SwiperSlide && SwiperModules && (
           <Swiper
             modules={[SwiperModules.Autoplay, SwiperModules.Pagination, SwiperModules.Navigation]}

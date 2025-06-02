@@ -64,7 +64,7 @@ export default function Gifts() {
                   </ul>
                 </div>
                 <a
-                  href={`https://wa.me/601111283937?text=I'm interested in the ${gift.name}`}
+                  href={`https://wa.me/601111283937?text=I&apos;m interested in the ${gift.name}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-6 block w-full text-center bg-red-500 text-white px-6 py-3 rounded-xl hover:bg-red-600 transition-colors"

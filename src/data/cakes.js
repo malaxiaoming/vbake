@@ -15,7 +15,7 @@ export const cakes = [
     id: "edible-printing",
     name: "Edible Printing Cake",
     img: "/images/cakes/edible-print-cake.webp",
-    description: "Customize your cake with edible printed images, perfect for personal photos, logos, or special messages. High-quality printing that's completely safe to eat.",
+    description: "Customize your cake with edible printed images, perfect for personal photos, logos, or special messages. High-quality printing that&apos;s completely safe to eat.",
     occasions: ["Birthday", "Weddings", "Wedding Anniversary", "Company Anniversary"],
     sizes: {
       "6-inch": "RM 120",

@@ -57,7 +57,7 @@ export default function Catering() {
                   </ul>
                 </div>
                 <a
-                  href={`https://wa.me/601111283937?text=I'm interested in the ${package_.name} catering package`}
+                  href={`https://wa.me/601111283937?text=I&apos;m interested in the ${package_.name} catering package`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-6 block w-full text-center bg-red-500 text-white px-6 py-3 rounded-xl hover:bg-red-600 transition-colors"
