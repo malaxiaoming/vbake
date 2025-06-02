@@ -13,6 +13,7 @@ import { flavors, getFlavorById } from "@/data/flavors";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { ReactCompareSlider, ReactCompareSliderImage } from 'react-compare-slider';
+import Link from "next/link";
 
 // Add custom styles for the calendar
 const calendarStyles = `

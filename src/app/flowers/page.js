@@ -4,6 +4,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { flowers } from "@/data/flowers";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function Flowers() {
   return (
@@ -64,14 +66,13 @@ export default function Flowers() {
                     ))}
                   </ul>
                 </div>
-                <a
-                  href={`https://wa.me/601111283937?text=I&apos;m interested in the ${flower.name}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-6 block w-full text-center bg-red-500 text-white px-6 py-3 rounded-xl hover:bg-red-600 transition-colors"
-                >
-                  Inquire Now
-                </a>
+                <div className="mt-4">
+                  <Link href={`/order?productType=flowers&productId=${flower.id}`}>
+                    <Button className="w-full bg-red-500 text-white hover:bg-red-600">
+                      Order Now
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </motion.div>
           ))}
@@ -83,14 +84,13 @@ export default function Flowers() {
           <p className="mt-4 text-gray-600">
             Contact us to discuss your specific requirements and create a unique flower arrangement for your special occasion.
           </p>
-          <a
-            href="https://wa.me/601111283937"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block mt-6 bg-red-500 text-white px-6 py-3 rounded-xl hover:bg-red-600 transition-colors"
-          >
-            Contact Us
-          </a>
+          <div className="mt-8 text-center">
+            <Link href="/order?productType=flowers">
+              <Button className="bg-red-500 text-white hover:bg-red-600">
+                Order Custom Arrangement
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

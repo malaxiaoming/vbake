@@ -103,9 +103,9 @@ export default function Home() {
       <div className="py-16 max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
         {[
           { name: "Cakes", img: "/images/cakes.jpg", link: "/cakes" },
-          { name: "Gifts", img: "/images/gifts.jpg", link: "/gifts" },
-          { name: "Flowers", img: "/images/flowers.jpg", link: "/flowers" },
-          { name: "Catering", img: "/images/catering.jpg", link: "/catering" },
+          { name: "Gifts", img: "/images/gifts/gifts.jpg", link: "/gifts" },
+          { name: "Flowers", img: "/images/flowers/flowers.jpg", link: "/flowers" },
+          { name: "Catering", img: "/images/catering/catering.jpg", link: "/catering" },
         ].map((category, index) => (
           <motion.div
             key={category.name}

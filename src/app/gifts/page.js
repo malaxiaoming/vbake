@@ -3,6 +3,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { gifts } from "@/data/gifts";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function Gifts() {
   return (
@@ -63,14 +65,13 @@ export default function Gifts() {
                     ))}
                   </ul>
                 </div>
-                <a
-                  href={`https://wa.me/601111283937?text=I&apos;m interested in the ${gift.name}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-6 block w-full text-center bg-red-500 text-white px-6 py-3 rounded-xl hover:bg-red-600 transition-colors"
-                >
-                  Inquire Now
-                </a>
+                <div className="mt-4">
+                  <Link href={`/order?productType=gifts&productId=${gift.id}`}>
+                    <Button className="w-full bg-red-500 text-white hover:bg-red-600">
+                      Order Now
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </motion.div>
           ))}
@@ -82,14 +83,13 @@ export default function Gifts() {
           <p className="mt-4 text-gray-600">
             Contact us to create a personalized gift collection tailored to your needs.
           </p>
-          <a
-            href="https://wa.me/601111283937"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block mt-6 bg-red-500 text-white px-6 py-3 rounded-xl hover:bg-red-600 transition-colors"
-          >
-            Contact Us
-          </a>
+          <div className="mt-8 text-center">
+            <Link href="/order?productType=gifts">
+              <Button className="bg-red-500 text-white hover:bg-red-600">
+                Order Custom Gift
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
