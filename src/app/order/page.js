@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { motion } from "framer-motion";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -92,7 +92,7 @@ const customStyles = `
   }
 `;
 
-export default function OrderNow() {
+function OrderContent() {
   const searchParams = useSearchParams();
   const cakeId = searchParams.get("cakeId");
   
@@ -783,6 +783,21 @@ export default function OrderNow() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function OrderNow() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-semibold text-gray-800">Loading...</h2>
+          <p className="text-gray-600 mt-2">Please wait while we prepare your order form</p>
+        </div>
+      </div>
+    }>
+      <OrderContent />
+    </Suspense>
   );
 }
 
