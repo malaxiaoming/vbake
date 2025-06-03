@@ -131,7 +131,7 @@ export default function Home() {
           />
           {promotions[`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`] && (
             <div className="mt-4 bg-red-50 p-4 rounded-lg">
-              <h3 className="text-lg font-semibold text-red-600 mb-2">Today's Promotion</h3>
+              <h3 className="text-lg font-semibold text-red-600 mb-2">Today&apos;s Promotion</h3>
               <p className="text-gray-700">
                 {promotions[`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`]}
               </p>
