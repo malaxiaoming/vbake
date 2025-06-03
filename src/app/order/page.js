@@ -404,7 +404,7 @@ function OrderContent() {
                             <optgroup key={category} label={`${category.charAt(0).toUpperCase() + category.slice(1)} Flavors`}>
                               {categoryFlavors.map((flavor) => (
                                 <option key={flavor.id} value={flavor.id}>
-                                  {flavor.name} {flavor.price !== "RM 0" ? `(${flavor.price})` : ""}
+                                  {flavor.name} {flavor.price !== "RM 0" ? `(+${flavor.price})` : ""} {flavor.bookingRequirement ? `- ${flavor.bookingRequirement}` : ""}
                                 </option>
                               ))}
                             </optgroup>

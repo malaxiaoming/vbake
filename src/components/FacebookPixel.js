@@ -9,18 +9,20 @@ export default function FacebookPixel() {
   const searchParams = useSearchParams();
   const pixelId = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID;
 
-  // Add debugging
   useEffect(() => {
-    console.log('Facebook Pixel ID from env:', pixelId);
-    console.log('All env variables:', process.env);
+    if (typeof window !== 'undefined' && window.fbq) {
+      // Initialize Facebook Pixel
+      window.fbq('init', pixelId);
+      window.fbq('track', 'PageView');
+    }
   }, []);
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !window.fbq) return;
-
-    // Track page view
-    window.fbq('track', 'PageView');
-  }, [pathname, searchParams]);
+    if (typeof window !== 'undefined' && window.fbq && searchParams) {
+      // Track page views with search params
+      window.fbq('track', 'PageView');
+    }
+  }, [searchParams]);
 
   if (!pixelId) {
     console.warn('Facebook Pixel ID is not configured');

@@ -7,6 +7,8 @@ import Link from "next/link";
 import Image from 'next/image';
 import { promotions } from "@/data/promotions";
 import { events } from "@/data/events";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 
 // Import Swiper styles
 import 'swiper/css';
@@ -18,6 +20,7 @@ export default function Home() {
   const [Swiper, setSwiper] = useState(null);
   const [SwiperSlide, setSwiperSlide] = useState(null);
   const [SwiperModules, setSwiperModules] = useState(null);
+  const [date, setDate] = useState(new Date());
 
   useEffect(() => {
     setIsMounted(true);
@@ -99,35 +102,6 @@ export default function Home() {
         )}
       </div>
 
-      {/* Product Categories */}
-      <div className="py-16 max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
-        {[
-          { name: "Cakes", img: "/images/cakes.jpg", link: "/cakes" },
-          { name: "Gifts", img: "/images/gifts/gifts.jpg", link: "/gifts" },
-          { name: "Flowers", img: "/images/flowers/flowers.jpg", link: "/flowers" },
-          { name: "Catering", img: "/images/catering/catering.jpg", link: "/catering" },
-        ].map((category, index) => (
-          <motion.div
-            key={category.name}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: index * 0.2, duration: 0.5 }}
-            className="text-center"
-          >
-            <Link href={category.link}>
-              <Image
-                src={category.img}
-                alt={category.name}
-                width={300}
-                height={200}
-                className="rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer"
-              />
-            </Link>
-            <h2 className="mt-3 text-lg font-semibold">{category.name}</h2>
-          </motion.div>
-        ))}
-      </div>
-
       {/* Order & Delivery Section */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -139,6 +113,32 @@ export default function Home() {
         <p className="mt-2 text-gray-600">
           Pre-order required | Same-day delivery available
         </p>
+
+        {/* Calendar Section */}
+        <div className="max-w-2xl mx-auto mt-8 mb-4">
+          <Calendar
+            onChange={setDate}
+            value={date}
+            className="custom-calendar w-full"
+            tileContent={({ date }) => {
+              const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+              return promotions[key] ? (
+                <p className="text-[9px] sm:text-xs text-red-500 font-semibold whitespace-normal break-words px-0 sm:px-0.5 leading-tight">
+                  {promotions[key]}
+                </p>
+              ) : null;
+            }}
+          />
+          {promotions[`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`] && (
+            <div className="mt-4 bg-red-50 p-4 rounded-lg">
+              <h3 className="text-lg font-semibold text-red-600 mb-2">Today's Promotion</h3>
+              <p className="text-gray-700">
+                {promotions[`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`]}
+              </p>
+            </div>
+          )}
+        </div>
+
         <p className="mt-4 text-sm text-gray-500 italic">
           * Same-day delivery subject to certain cake options. Please contact us for more details.
         </p>

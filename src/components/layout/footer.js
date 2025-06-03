@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from "lucide-react";
+import { Facebook, Instagram, Twitter, Mail, Phone, MapPin, Clock } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -76,6 +76,24 @@ export default function Footer() {
                 <span>info@vbake.com</span>
               </li>
             </ul>
+
+            <div className="flex items-start space-x-4">
+              <MapPin className="w-5 h-5 text-red-500 mt-1" />
+              <div>
+                <h3 className="font-semibold">Location</h3>
+                <p className="text-gray-600">Sri Petaling, Kuala Lumpur, Malaysia</p>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-4">
+              <Clock className="w-5 h-5 text-red-500 mt-1" />
+              <div>
+                <h3 className="font-semibold">Business Hours</h3>
+                <div className="text-gray-600">
+                  <p>Monday - Sunday: 8:00 AM - 10:00 PM</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
