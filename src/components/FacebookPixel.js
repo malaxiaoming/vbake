@@ -16,7 +16,7 @@ export default function FacebookPixel() {
   }, []);
 
   useEffect(() => {
-    if (!window.fbq) return;
+    if (typeof window === 'undefined' || !window.fbq) return;
 
     // Track page view
     window.fbq('track', 'PageView');
