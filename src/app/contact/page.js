@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
+import { Phone, MapPin, Clock, Send, Mail } from "lucide-react";
 import { contactInfo } from "@/data/contact";
 
 export default function Contact() {
@@ -25,9 +25,21 @@ export default function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically handle the form submission
-    // For now, we'll just log the data
-    console.log(formData);
+    
+    // Format the message for WhatsApp
+    const whatsappMessage = `Hello, I would like to contact you:\n\n` +
+      `Name: ${formData.name}\n` +
+      `Phone: ${formData.phone}\n` +
+      (formData.email ? `Email: ${formData.email}\n` : '') +
+      `Subject: ${formData.subject}\n\n` +
+      `Message:\n${formData.message}`;
+
+    // Encode the message for URL
+    const encodedMessage = encodeURIComponent(whatsappMessage);
+    
+    // Open WhatsApp with the message
+    window.open(`https://wa.me/${contactInfo.phone.number.replace(/[^0-9]/g, '')}?text=${encodedMessage}`, '_blank');
+
     // Reset form
     setFormData({
       name: "",
@@ -36,7 +48,6 @@ export default function Contact() {
       subject: "",
       message: "",
     });
-    alert("Thank you for your message! We'll get back to you soon.");
   };
 
   return (
@@ -165,7 +176,7 @@ export default function Contact() {
 
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                  Email
+                  Email (Optional)
                 </label>
                 <input
                   type="email"
@@ -173,7 +184,6 @@ export default function Contact() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  required
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
                 />
               </div>
@@ -188,6 +198,7 @@ export default function Contact() {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
+                  required
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
                 />
               </div>
@@ -227,7 +238,7 @@ export default function Contact() {
                 className="w-full bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition-colors flex items-center justify-center space-x-2"
               >
                 <Send className="w-5 h-5" />
-                <span>Send Message</span>
+                <span>Send via WhatsApp</span>
               </Button>
             </form>
           </motion.div>
