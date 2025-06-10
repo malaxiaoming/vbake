@@ -10,6 +10,7 @@ import { flowers } from "@/data/flowers";
 import { catering } from "@/data/catering";
 import { addons } from "@/data/addons"; // Import add-ons
 import { flavors, getFlavorById } from "@/data/flavors";
+import { contactInfo } from "@/data/contact";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { ReactCompareSlider, ReactCompareSliderImage } from 'react-compare-slider';
@@ -42,11 +43,11 @@ const calendarStyles = `
     background: #fef2f2;
   }
   .react-calendar__tile--active {
-    background: #ef4444 !important;
+    background: #86efac !important;
   }
   .react-calendar__tile--active:enabled:hover,
   .react-calendar__tile--active:enabled:focus {
-    background: #dc2626 !important;
+    background: #4ade80 !important;
   }
   .react-calendar__month-view__days__day--neighboringMonth {
     color: #9ca3af;
@@ -115,6 +116,7 @@ function OrderContent() {
   const [customerAddress, setCustomerAddress] = useState("");
   const [customerOccasion, setCustomerOccasion] = useState("");
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [disableAddsOn, setDisableAddsOn] = useState(true);
 
   useEffect(() => {
     if (cakeId && productType === "cakes") {
@@ -122,10 +124,16 @@ function OrderContent() {
       if (cake) {
         setSelectedProduct(cake.name);
         setSelectedSize(cake.defaultSize);
+        if (cake.name === "Coriander Cake") {
+          setSelectedFlavor("original");
+        }
       }
     } else if (productType === "cakes" && cakes.length > 0) {
       setSelectedProduct(cakes[0].name);
       setSelectedSize(cakes[0].defaultSize);
+      if (cakes[0].name === "Coriander Cake") {
+        setSelectedFlavor("original");
+      }
     } else if (productType === "gifts" && gifts.length > 0) {
       setSelectedProduct(gifts[0].name);
     } else if (productType === "flowers" && flowers.length > 0) {
@@ -134,6 +142,41 @@ function OrderContent() {
       setSelectedProduct(catering[0].name);
     }
   }, [cakeId, productType]);
+
+  // Add new useEffect to handle Coriander Cake selection
+  useEffect(() => {
+    if (selectedProduct === "Coriander Cake") {
+      setSelectedFlavor("original");
+    }
+  }, [selectedProduct]);
+
+  useEffect(() => {
+    // Track page view
+    if (typeof window !== 'undefined' && window.fbq) {
+      window.fbq('track', 'ViewContent', {
+        content_name: 'Order Page',
+        content_category: 'Order',
+        content_type: 'Page',
+        content_ids: ['order-page-2025'],
+        value: 0,
+        currency: 'MYR'
+      });
+    }
+  }, []);
+
+  // Track product selection
+  useEffect(() => {
+    if (selectedProduct && typeof window !== 'undefined' && window.fbq) {
+      window.fbq('track', 'ViewContent', {
+        content_name: selectedProduct,
+        content_category: productType.charAt(0).toUpperCase() + productType.slice(1),
+        content_type: 'Product',
+        content_ids: [`${productType}-${selectedProduct.toLowerCase().replace(/\s+/g, '-')}`],
+        value: calculateTotal(),
+        currency: 'MYR'
+      });
+    }
+  }, [selectedProduct, productType, selectedSize, selectedShape, selectedFlavor, selectedAddons]);
 
   const getSelectedProductDetails = () => {
     switch (productType) {
@@ -226,6 +269,18 @@ function OrderContent() {
     e.preventDefault();
     if (!selectedProductDetails) return;
 
+    // Track checkout initiation
+    if (typeof window !== 'undefined' && window.fbq) {
+      window.fbq('track', 'InitiateCheckout', {
+        content_name: selectedProduct,
+        content_category: productType.charAt(0).toUpperCase() + productType.slice(1),
+        content_type: 'Product',
+        content_ids: [`${productType}-${selectedProduct.toLowerCase().replace(/\s+/g, '-')}`],
+        value: calculateTotal(),
+        currency: 'MYR'
+      });
+    }
+
     const formattedDate = date.toISOString().split("T")[0];
     const selectedAddonsDetails = getSelectedAddonsDetails();
     const selectedFlavorDetails = selectedFlavor ? getFlavorById(selectedFlavor) : null;
@@ -262,7 +317,7 @@ function OrderContent() {
     const encodedMessage = encodeURIComponent(orderMessage);
 
     // Your WhatsApp number
-    const whatsappNumber = "601111283937";
+    const whatsappNumber = "60149308327";
 
     // Open WhatsApp chat with pre-filled message
     window.open(
@@ -289,7 +344,7 @@ function OrderContent() {
 
       <div className="max-w-3xl mx-auto bg-white p-4 sm:p-8 shadow-lg rounded-lg mt-3 sm:mt-6">
         {/* Product Type Selection */}
-        <div className="mb-8">
+        {/* <div className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">Select Product Type</h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {[
@@ -311,16 +366,16 @@ function OrderContent() {
               </button>
             ))}
           </div>
-        </div>
+        </div> */}
 
         {/* Product Selection Section */}
         <div className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">Select Your {productType.charAt(0).toUpperCase() + productType.slice(1)}</h2>
-          <select
-            className="w-full p-2 border rounded mb-4"
-            value={selectedProduct}
-            onChange={(e) => setSelectedProduct(e.target.value)}
-          >
+        <select
+          className="w-full p-2 border rounded mb-4"
+          value={selectedProduct}
+          onChange={(e) => setSelectedProduct(e.target.value)}
+        >
             <option value="">-- Choose a {productType.slice(0, -1)} --</option>
             {productType === "cakes" && cakes.map((cake) => (
               <option key={cake.id} value={cake.name}>
@@ -342,7 +397,7 @@ function OrderContent() {
                 {pkg.name}
               </option>
             ))}
-          </select>
+        </select>
 
           {selectedProductDetails && (
             <div className="mt-4">
@@ -395,28 +450,51 @@ function OrderContent() {
                       </label>
                       <div className="border rounded-lg p-3">
                         <select
-                          className="w-full p-2 border rounded text-sm"
                           value={selectedFlavor}
                           onChange={(e) => setSelectedFlavor(e.target.value)}
+                          className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 ${
+                            selectedProduct === "Coriander Cake" ? "bg-gray-100 cursor-not-allowed" : ""
+                          }`}
+                          disabled={selectedProduct === "Coriander Cake"}
                         >
-                          <option value="">-- Select a flavor --</option>
-                          {Object.entries(flavors).map(([category, categoryFlavors]) => (
-                            <optgroup key={category} label={`${category.charAt(0).toUpperCase() + category.slice(1)} Flavors`}>
-                              {categoryFlavors.map((flavor) => (
-                                <option key={flavor.id} value={flavor.id}>
-                                  {flavor.name} {flavor.price !== "RM 0" ? `(+${flavor.price})` : ""} {flavor.bookingRequirement ? `- ${flavor.bookingRequirement}` : ""}
-                                </option>
-                              ))}
-                            </optgroup>
-                          ))}
+                          <option value="">Select a flavor</option>
+                          <optgroup label="Standard Flavors">
+                            {flavors.standard.map((flavor) => (
+                              <option key={flavor.id} value={flavor.id}>
+                                {flavor.name} {flavor.price !== "RM 0" ? `(+${flavor.price})` : ""}
+                              </option>
+                            ))}
+                          </optgroup>
+                          <optgroup label="Premium Flavors - 3 days advance booking">
+                            {flavors.premium.map((flavor) => (
+                              <option key={flavor.id} value={flavor.id}>
+                                {flavor.name} {flavor.price !== "RM 0" ? `(+${flavor.price})` : ""}
+                              </option>
+                            ))}
+                          </optgroup>
+                          <optgroup label="Luxury Flavors - 5 days advance booking">
+                            {flavors.luxury.map((flavor) => (
+                              <option key={flavor.id} value={flavor.id}>
+                                {flavor.name} {flavor.price !== "RM 0" ? `(+${flavor.price})` : ""}
+                              </option>
+                            ))}
+                          </optgroup>
                         </select>
+                        {selectedProduct === "Coriander Cake" && (
+                          <p className="mt-2 text-sm text-gray-500">
+                            Flavor selection is not available for Coriander Cake
+                          </p>
+                        )}
                         {selectedFlavor && (
-                          <div className="mt-2">
-                            <p className="text-xs text-gray-500">
-                              {getFlavorById(selectedFlavor).description}
-                            </p>
+                          <div className="mt-2 text-sm text-gray-600">
+                            <p>{getFlavorById(selectedFlavor).description}</p>
+                            {getFlavorById(selectedFlavor).bookingRequirement && (
+                              <p className="text-red-500 mt-1">
+                                Note: {getFlavorById(selectedFlavor).bookingRequirement}
+                              </p>
+                            )}
                             {getFlavorById(selectedFlavor).price !== "RM 0" && (
-                              <p className="text-xs font-medium text-red-600 mt-1">
+                              <p className="text-red-500 mt-1">
                                 Additional cost: {getFlavorById(selectedFlavor).price}
                               </p>
                             )}
@@ -426,7 +504,7 @@ function OrderContent() {
                     </div>
 
                     {/* Shape Selection */}
-                    <div className="mt-4">
+                    {/* <div className="mt-4">
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Select Shape
                       </label>
@@ -484,7 +562,7 @@ function OrderContent() {
                           </button>
                         ))}
                       </div>
-                    </div>
+                    </div> */}
 
                     {/* Size Selection */}
                     <div className="mt-4">
@@ -505,7 +583,10 @@ function OrderContent() {
                             <div className="font-medium">{size}</div>
                             <div className="text-sm">{price}</div>
                             <div className="text-xs text-gray-500">
-                              {size === "6-inch" ? "6-8 pax" : "8-10 pax"}
+                              {size === "4-inch" ? "1-2 pax" :
+                               size === "5-inch" ? "3-4 pax" :
+                               size === "6-inch" ? "4-6 pax" :
+                               "8-14 pax"}
                             </div>
                           </button>
                         ))}
@@ -571,7 +652,7 @@ function OrderContent() {
         </div>
 
         {/* Add-ons Section (only for cakes) */}
-        {productType === "cakes" && (
+        {(disableAddsOn === false && productType === "cakes") && (
           <div className="mb-8">
             <h2 className="text-2xl font-semibold mb-6">Add-ons</h2>
             
@@ -719,26 +800,26 @@ function OrderContent() {
 
         {/* Delivery Date Section */}
         <div className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Choose Delivery Date</h2>
-          <Calendar
-            onChange={setDate}
-            value={date}
+        <h2 className="text-2xl font-semibold mb-4">Choose Delivery Date</h2>
+        <Calendar
+          onChange={setDate}
+          value={date}
             className="custom-calendar w-full"
             style={{ width: '100%', height: 'auto' }}
-            tileContent={({ date }) => {
+          tileContent={({ date }) => {
               const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-              return promotions[key] ? (
+            return promotions[key] ? (
                 <p className="text-[9px] sm:text-xs text-red-500 font-semibold whitespace-normal break-words px-0 sm:px-0.5 leading-tight">
-                  {promotions[key]}
-                </p>
-              ) : null;
-            }}
-          />
+                {promotions[key]}
+              </p>
+            ) : null;
+          }}
+        />
           {promotions[`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`] && (
             <p className="mt-1 sm:mt-2 text-sm sm:text-lg font-semibold text-red-600">
               {promotions[`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`]}
-            </p>
-          )}
+          </p>
+        )}
         </div>
 
         {/* Order Details Section */}
@@ -746,43 +827,43 @@ function OrderContent() {
           <h2 className="text-2xl font-semibold mb-4">Order Details</h2>
           <h4 className="text-md font-semibold mt-1 mb-1">Occasion</h4>
           <input
-            type="text"
+          type="text"
             placeholder="e.g., Birthday, Wedding, Anniversary"
-            className="w-full p-2 border rounded mb-3"
+          className="w-full p-2 border rounded mb-3"
             value={customerOccasion}
             onChange={(e) => setCustomerOccasion(e.target.value)}
           />
           <h4 className="text-md font-semibold mt-1 mb-1">Address / Area</h4>
-          <input
-            type="text"
-            placeholder="Delivery Address"
-            className="w-full p-2 border rounded mb-3"
-            value={customerAddress}
-            onChange={(e) => setCustomerAddress(e.target.value)}
-          />
-          <h4 className="text-md font-semibold mt-1 mb-1">Notes</h4>
-          <input
-            type="tel"
-            placeholder="Urgent!"
-            className="w-full p-2 border rounded mb-3"
-            value={customerNotes}
-            onChange={(e) => setCustomerNotes(e.target.value)}
-          />
+        <input
+          type="text"
+          placeholder="Delivery Address"
+          className="w-full p-2 border rounded mb-3"
+          value={customerAddress}
+          onChange={(e) => setCustomerAddress(e.target.value)}
+        />
+        <h4 className="text-md font-semibold mt-1 mb-1">Notes</h4>
+        <input
+          type="tel"
+          placeholder="Urgent!"
+          className="w-full p-2 border rounded mb-3"
+          value={customerNotes}
+          onChange={(e) => setCustomerNotes(e.target.value)}
+        />
 
-          <button
-            onClick={handleSubmit}
+        <button
+          onClick={handleSubmit}
             disabled={!selectedProductDetails}
             className="mt-6 bg-red-500 text-white px-6 py-3 rounded-xl w-full hover:bg-red-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
-          >
-            Place Order
-          </button>
-          <div>
-            <h4 className="text-sm mt-1 mb-1">
-              Payment should only made to Vbake or TnG +6014 xxxxxxx
-            </h4>
-          </div>
+        >
+          Place Order
+        </button>
+        <div>
+          <h4 className="text-sm mt-1 mb-1">
+            Payment should only made to Vbake or TnG {contactInfo.phone.number}
+          </h4>
         </div>
       </div>
+    </div>
     </div>
   );
 }

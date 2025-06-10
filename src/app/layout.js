@@ -8,8 +8,16 @@ import { Suspense } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "VBake - Custom Cakes & Bakery",
-  description: "Custom cakes for all occasions. Wedding cakes, birthday cakes, and special event cakes.",
+  title: "VBake - Custom Cakes & Gifts",
+  description: "Order custom cakes, flowers, and gifts for all occasions. Free delivery in Klang Valley.",
+  icons: {
+    icon: [
+      {
+        url: '/images/logos/vbakelogo.png',
+        href: '/images/logos/vbakelogo.png',
+      },
+    ],
+  },
 };
 
 export default function RootLayout({ children }) {

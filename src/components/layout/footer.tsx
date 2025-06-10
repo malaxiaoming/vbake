@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from "lucide-react";
+import { Facebook, Instagram, Mail, Phone, MapPin, Clock } from "lucide-react";
+import { contactInfo } from "@/data/contact";
 
 export default function Footer() {
   return (
@@ -22,8 +23,8 @@ export default function Footer() {
             <h3 className="text-xl font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/about" className="text-gray-400 hover:text-white transition-colors">
-                  About Us
+                <Link href="/" className="text-gray-400 hover:text-white transition-colors">
+                  Home
                 </Link>
               </li>
               <li>
@@ -48,17 +49,43 @@ export default function Footer() {
           <div>
             <h3 className="text-xl font-bold mb-4">Contact Us</h3>
             <ul className="space-y-2">
-              <li className="flex items-center space-x-2 text-gray-400">
-                <MapPin size={20} />
-                <span>Klang Valley, Malaysia</span>
+              <li className="flex items-start space-x-2 text-gray-400">
+                <MapPin size={20} className="mt-1" />
+                <a 
+                  href={contactInfo.location.googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
+                  {contactInfo.location.address}
+                </a>
               </li>
               <li className="flex items-center space-x-2 text-gray-400">
                 <Phone size={20} />
-                <span>+60 12-345 6789</span>
+                <a 
+                  href={contactInfo.phone.whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
+                  {contactInfo.phone.number}
+                </a>
               </li>
               <li className="flex items-center space-x-2 text-gray-400">
                 <Mail size={20} />
-                <span>info@vbake.com</span>
+                <a 
+                  href={`mailto:${contactInfo.email}`}
+                  className="hover:text-white transition-colors"
+                >
+                  {contactInfo.email}
+                </a>
+              </li>
+              <li className="flex items-start space-x-2 text-gray-400">
+                <Clock size={20} className="mt-1" />
+                <div>
+                  <p>Monday - Sunday: {contactInfo.businessHours.weekdays}</p>
+                  <p className="text-sm text-gray-500 mt-1">{contactInfo.businessHours.note}</p>
+                </div>
               </li>
             </ul>
           </div>
@@ -67,14 +94,21 @@ export default function Footer() {
         {/* Social Links */}
         <div className="mt-8 pt-8 border-t border-gray-800">
           <div className="flex justify-center space-x-6">
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
+            <a 
+              href="https://facebook.com/VBake.KL" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-gray-400 hover:text-white transition-colors"
+            >
               <Facebook size={24} />
             </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
+            <a 
+              href="https://instagram.com/vbake.kl" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-gray-400 hover:text-white transition-colors"
+            >
               <Instagram size={24} />
-            </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
-              <Twitter size={24} />
             </a>
           </div>
         </div>

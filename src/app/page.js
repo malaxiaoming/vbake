@@ -7,6 +7,7 @@ import Link from "next/link";
 import Image from 'next/image';
 import { promotions } from "@/data/promotions";
 import { events } from "@/data/events";
+import { contactInfo } from "@/data/contact";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
@@ -61,8 +62,8 @@ export default function Home() {
         <motion.div whileHover={{ scale: 1.1 }}>
           <Link href="/order">
             <Button className="mt-6 bg-red-500 text-white px-6 py-3 rounded-xl">
-              Order Now
-            </Button>
+            Order Now
+          </Button>
           </Link>
         </motion.div>
       </motion.div>
@@ -71,34 +72,31 @@ export default function Home() {
       <div className="max-w-4xl mx-auto mb-10">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">🎉 This Month&apos;s Promotions 🎉</h2>
         {Swiper && SwiperSlide && SwiperModules && (
-          <Swiper
+        <Swiper
             modules={[SwiperModules.Autoplay, SwiperModules.Pagination, SwiperModules.Navigation]}
-            spaceBetween={20}
-            slidesPerView={1}
-            loop={true}
-            autoplay={{ delay: 3000 }}
-            pagination={{ clickable: true }}
-            navigation={true}
-            className="rounded-xl shadow-lg"
-          >
-            {events.map((promo, index) => (
-              <SwiperSlide key={index}>
-                <div className="relative aspect-[16/9]">
+          spaceBetween={20}
+          slidesPerView={1}
+          loop={true}
+          autoplay={{ delay: 3000 }}
+          pagination={{ clickable: true }}
+          navigation={true}
+          className="rounded-xl shadow-lg"
+        >
+          {events.map((promo, index) => (
+            <SwiperSlide key={index}>
+                <div className="relative aspect-[4/3]">
                   <Image
                     src={promo.img}
                     alt={`Promotion ${index + 1}`}
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="100vw"
                     className="object-cover rounded-xl"
                     priority={index === 0}
                   />
-                  <div className="absolute bottom-0 left-0 right-0 text-center bg-black bg-opacity-100 text-white py-2 text-lg font-semibold">
-                    {promo.text}
-                  </div>
                 </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+            </SwiperSlide>
+          ))}
+        </Swiper>
         )}
       </div>
 
@@ -111,7 +109,7 @@ export default function Home() {
       >
         <h2 className="text-3xl font-semibold">Order & Delivery</h2>
         <p className="mt-2 text-gray-600">
-          Pre-order required | Same-day delivery available
+          Pre-order required | Same-day delivery available*
         </p>
 
         {/* Calendar Section */}
@@ -134,7 +132,7 @@ export default function Home() {
               <h3 className="text-lg font-semibold text-red-600 mb-2">Today&apos;s Promotion</h3>
               <p className="text-gray-700">
                 {promotions[`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`]}
-              </p>
+            </p>
             </div>
           )}
         </div>
@@ -170,7 +168,45 @@ export default function Home() {
         className="text-center py-16 bg-pink-100"
       >
         <h2 className="text-3xl font-semibold">Get in Touch</h2>
-        <p className="mt-2">📍 Klang Valley, Malaysia | 📞 +60 12-345 6789</p>
+        <div className="mt-4 space-y-2">
+          <p className="flex items-center justify-center space-x-2">
+            <span>📍</span>
+            <a 
+              href={contactInfo.location.googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-red-500 transition-colors"
+            >
+              {contactInfo.location.address}
+            </a>
+          </p>
+          <p className="flex items-center justify-center space-x-2">
+            <span>📞</span>
+            <a 
+              href={contactInfo.phone.whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-red-500 transition-colors"
+            >
+              {contactInfo.phone.number}
+            </a>
+          </p>
+          <p className="flex items-center justify-center space-x-2">
+            <span>✉️</span>
+            <a 
+              href={`mailto:${contactInfo.email}`}
+              className="hover:text-red-500 transition-colors"
+            >
+              {contactInfo.email}
+            </a>
+          </p>
+          <p className="flex items-center justify-center space-x-2">
+            <span>🕒</span>
+            <span>
+              {contactInfo.businessHours.weekdays} ({contactInfo.businessHours.note})
+            </span>
+          </p>
+        </div>
       </motion.div>
     </div>
   );

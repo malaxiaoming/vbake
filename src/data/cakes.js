@@ -6,8 +6,10 @@ export const cakes = [
     description: "A unique and refreshing cake featuring the distinctive taste of coriander, perfect for those who love bold and innovative flavors.",
     occasions: ["Birthday", "Surprise", "Company Anniversary"],
     sizes: {
-      "6-inch": "RM 120",
-      "8-inch": "RM 180",
+      "4-inch": "RM 110",
+      "5-inch": "RM 120",
+      "6-inch": "RM 140",
+      "8-inch": "RM 180"
     },
     defaultSize: "6-inch",
   },
@@ -18,8 +20,10 @@ export const cakes = [
     description: "Customize your cake with edible printed images, perfect for personal photos, logos, or special messages. High-quality printing that&apos;s completely safe to eat.",
     occasions: ["Birthday", "Weddings", "Wedding Anniversary", "Company Anniversary"],
     sizes: {
-      "6-inch": "RM 120",
-      "8-inch": "RM 180",
+      "4-inch": "RM 110",
+      "5-inch": "RM 120",
+      "6-inch": "RM 140",
+      "8-inch": "RM 180"
     },
     defaultSize: "6-inch",
   },
@@ -30,8 +34,10 @@ export const cakes = [
     description: "A dramatic and eye-catching cake featuring a stunning flaming effect. Perfect for making a grand entrance at any celebration.",
     occasions: ["Birthday", "Surprise", "Wedding Anniversary"],
     sizes: {
-      "6-inch": "RM 120",
-      "8-inch": "RM 180",
+      "4-inch": "RM 110",
+      "5-inch": "RM 120",
+      "6-inch": "RM 140",
+      "8-inch": "RM 180"
     },
     defaultSize: "6-inch",
   },
@@ -42,8 +48,10 @@ export const cakes = [
     description: "Artistically decorated with hand-drawn designs, each cake is a unique piece of edible art. Perfect for those seeking a personal touch.",
     occasions: ["Birthday", "Weddings", "Wedding Anniversary", "Gender Reveal"],
     sizes: {
-      "6-inch": "RM 120",
-      "8-inch": "RM 180",
+      "4-inch": "RM 110",
+      "5-inch": "RM 120",
+      "6-inch": "RM 140",
+      "8-inch": "RM 180"
     },
     defaultSize: "6-inch",
   },
@@ -54,8 +62,10 @@ export const cakes = [
     description: "Elegant cakes adorned with beautiful toppers, adding a special touch to your celebration. Choose from various topper designs to match your theme.",
     occasions: ["Birthday", "Weddings", "Wedding Anniversary", "Gender Reveal"],
     sizes: {
-      "6-inch": "RM 120",
-      "8-inch": "RM 180",
+      "4-inch": "RM 110",
+      "5-inch": "RM 120",
+      "6-inch": "RM 140",
+      "8-inch": "RM 180"
     },
     defaultSize: "6-inch",
   },
@@ -66,8 +76,10 @@ export const cakes = [
     description: "A heavenly design featuring delicate angelic elements, perfect for weddings and romantic celebrations. Elegant and sophisticated.",
     occasions: ["Birthday", "Weddings", "Wedding Anniversary"],
     sizes: {
-      "6-inch": "RM 120",
-      "8-inch": "RM 180",
+      "4-inch": "RM 110",
+      "5-inch": "RM 120",
+      "6-inch": "RM 140",
+      "8-inch": "RM 180"
     },
     defaultSize: "6-inch",
   },
@@ -78,8 +90,10 @@ export const cakes = [
     description: "Sparkling and luxurious, this cake features crystal-like decorations that catch the light beautifully. Perfect for elegant celebrations.",
     occasions: ["Birthday", "Weddings", "Wedding Anniversary"],
     sizes: {
-      "6-inch": "RM 120",
-      "8-inch": "RM 180",
+      "4-inch": "RM 110",
+      "5-inch": "RM 120",
+      "6-inch": "RM 140",
+      "8-inch": "RM 180"
     },
     defaultSize: "6-inch",
   },
@@ -90,8 +104,10 @@ export const cakes = [
     description: "A fun and playful cake perfect for casual celebrations. Great for friends and family gatherings with a lighthearted atmosphere.",
     occasions: ["Birthday", "Surprise", "Company Anniversary"],
     sizes: {
-      "6-inch": "RM 120",
-      "8-inch": "RM 180",
+      "4-inch": "RM 110",
+      "5-inch": "RM 120",
+      "6-inch": "RM 140",
+      "8-inch": "RM 180"
     },
     defaultSize: "6-inch",
   },
@@ -102,8 +118,10 @@ export const cakes = [
     description: "Elegant cakes featuring beautiful calligraphy designs. Perfect for weddings and formal celebrations where style and sophistication matter.",
     occasions: ["Birthday", "Weddings", "Wedding Anniversary"],
     sizes: {
-      "6-inch": "RM 120",
-      "8-inch": "RM 180",
+      "4-inch": "RM 110",
+      "5-inch": "RM 120",
+      "6-inch": "RM 140",
+      "8-inch": "RM 180"
     },
     defaultSize: "6-inch",
   },
@@ -114,8 +132,10 @@ export const cakes = [
     description: "A unique cake designed for mahjong enthusiasts. Perfect for game nights and gatherings with friends who love this classic game.",
     occasions: ["Birthday", "Surprise", "Company Anniversary"],
     sizes: {
-      "6-inch": "RM 120",
-      "8-inch": "RM 180",
+      "4-inch": "RM 110",
+      "5-inch": "RM 120",
+      "6-inch": "RM 140",
+      "8-inch": "RM 180"
     },
     defaultSize: "6-inch",
   },

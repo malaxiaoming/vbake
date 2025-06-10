@@ -1,12 +1,42 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { cakes, getAllOccasions, getCakesByOccasion } from "@/data/cakes";
+import { useRouter } from "next/navigation";
 
 export default function Cakes() {
   const occasions = getAllOccasions();
+  const router = useRouter();
+
+  useEffect(() => {
+    // Track page view
+    if (typeof window !== 'undefined' && window.fbq) {
+      window.fbq('track', 'ViewContent', {
+        content_name: 'Cakes Catalog',
+        content_category: 'Cakes',
+        content_type: 'Catalog',
+        content_ids: ['cakes-catalog-2025'],
+        value: 0,
+        currency: 'MYR'
+      });
+    }
+  }, []);
+
+  const handleCakeClick = (cake) => {
+    if (typeof window !== 'undefined' && window.fbq) {
+      window.fbq('track', 'ViewContent', {
+        content_name: cake.name,
+        content_category: 'Cake',
+        content_type: 'Product',
+        content_ids: [`cake-${cake.id}`],
+        value: parseInt(cake.sizes["6-inch"].replace(/[^0-9]/g, '')),
+        currency: 'MYR'
+      });
+    }
+    router.push(`/order?cakeId=${cake.id}`);
+  };
 
   return (
     <div className="bg-pink-50 min-h-screen p-8">
@@ -52,11 +82,11 @@ export default function Cakes() {
                       />
                     </div>
                     <h2 className="mt-3 text-lg font-semibold">{cake.name}</h2>
-                    <p className="text-red-500 font-bold">{cake.sizes["6-inch"]}</p>
+                    {/* <p className="text-red-500 font-bold">{cake.sizes["6-inch"]}</p> */}
                     <div className="mt-2 text-sm text-gray-500">
                       {cake.occasions.filter(o => o !== occasion).join(" • ")}
                     </div>
-                    <Link href={`/order?cakeId=${cake.id}`}>
+                    <Link href={`/order?cakeId=${cake.id}`} onClick={() => handleCakeClick(cake)}>
                       <Button className="mt-4 bg-red-500 text-white px-6 py-2 rounded-xl hover:bg-red-600 transition-colors">
                         Order Now
                       </Button>

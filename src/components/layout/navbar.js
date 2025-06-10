@@ -15,22 +15,25 @@ export default function Navbar() {
 
   const navItems = [
     { name: "Home", href: "/", exact: true },
-    { name: "About", href: "/about" },
+    { name: "Father's Day Special", href: "/promotions/fathers-day" },
     { name: "Our Cakes", href: "/cakes" },
     { name: "Gifts", href: "/gifts" },
-    { name: "Flowers", href: "/flowers" },
-    { name: "Catering", href: "/catering" },
     { name: "Custom Order", href: "/order" },
     { name: "Contact", href: "/contact" },
   ];
 
   return (
-    <nav className="fixed w-full bg-white/80 backdrop-blur-sm z-50 shadow-sm">
+    <nav className="bg-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
+        <div className="flex justify-between h-20">
           <div className="flex items-center">
-            <Link href="/" className="text-2xl font-bold text-red-500">
-              VBake.KL
+            <Link href="/" className="flex items-center space-x-3">
+              <img
+                src="/images/logos/vbakelogo-new.png"
+                alt="VBake Logo"
+                className="h-16 w-16 object-contain"
+              />
+              <span className="text-2xl font-bold text-gray-900">VBake.KL</span>
             </Link>
           </div>
 
