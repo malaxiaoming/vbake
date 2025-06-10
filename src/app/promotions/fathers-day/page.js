@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, Calendar, Clock, Gift, Play } from "lucide-react";
 import { useState, useEffect } from "react";
 import { trackEvent, trackViewContent } from "@/utils/analytics";
@@ -111,10 +112,10 @@ export default function FathersDayPage() {
               transition={{ duration: 0.8 }}
               className="space-y-6"
             >
-              <h2 className="text-4xl font-bold text-gray-900">Be the Magic for Dad This Father's Day</h2>
+              <h2 className="text-4xl font-bold text-gray-900">Be the Magic for Dad This Father&apos;s Day</h2>
               <p className="text-lg text-gray-600">
-                Remember when Dad always had "magic" — pulling out pocket money like it was no big deal?
-                Now it's our turn to surprise him.
+                Remember when Dad always had &quot;magic&quot; — pulling out pocket money like it was no big deal?
+                Now it&apos;s our turn to surprise him.
               </p>
               <h3 className="text-2xl font-bold text-gray-900">A Taste of Luxury</h3>
               <p className="text-lg text-gray-600">
@@ -122,7 +123,7 @@ export default function FathersDayPage() {
               </p>
               <h3 className="text-2xl font-bold text-gray-900">Let Him Be King for a Day</h3>
               <p className="text-lg text-gray-600">
-                This Father's Day, celebrate the man who's always been your hero — with a cake he'll never forget.
+                This Father&apos;s Day, celebrate the man who&apos;s always been your hero — with a cake he&apos;ll never forget.
               </p>
               <div className="flex items-center space-x-4">
                 <button
@@ -145,9 +146,11 @@ export default function FathersDayPage() {
           className="mb-20 w-full"
         >
           <div className="w-full">
-            <img
+            <Image
               src="/images/promotions/fathers-day-1.jpg"
               alt="Father's Day Special"
+              width={1200}
+              height={800}
               className="w-full h-auto object-cover"
             />
           </div>
@@ -190,9 +193,11 @@ export default function FathersDayPage() {
                 <li>Fireworks Candle (Worth RM10)</li>
               </ul>
               <div className="mt-6">
-                <img
+                <Image
                   src="/images/promotions/fathers-day-7.jpg"
                   alt="Delicious Bundle"
+                  width={400}
+                  height={300}
                   className="w-full h-auto rounded-lg"
                 />
               </div>
@@ -231,9 +236,11 @@ export default function FathersDayPage() {
                 <li>Pop-up Balloon gadget with Strings of Money (Worth RM55)</li>
               </ul>
               <div className="mt-6">
-                <img
+                <Image
                   src="/images/promotions/fathers-day-2.jpg"
                   alt="Luxury Bundle"
+                  width={400}
+                  height={300}
                   className="w-full h-auto rounded-lg"
                 />
               </div>
@@ -265,9 +272,11 @@ export default function FathersDayPage() {
                 <li>12 Mini Fruit Tarts + 13 Mini Chocolate Tarts (Worth RM110)</li>
               </ul>
               <div className="mt-6">
-                <img
+                <Image
                   src="/images/promotions/fathers-day-3.jpg"
                   alt="Royal Bundle"
+                  width={400}
+                  height={300}
                   className="w-full h-auto rounded-lg"
                 />
               </div>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -27,13 +28,14 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20">
           <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-3">
-              <img
-                src="/images/logos/vbakelogo-new.png"
-                alt="VBake Logo"
-                className="h-16 w-16 object-contain"
+            <Link href="/" className="flex items-center">
+              <Image
+                src="/images/logos/vbakelogo.png"
+                alt="Vbake Logo"
+                width={120}
+                height={40}
+                className="h-10 w-auto"
               />
-              <span className="text-2xl font-bold text-gray-900">VBake.KL</span>
             </Link>
           </div>
 

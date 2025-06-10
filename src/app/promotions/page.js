@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function PromotionsPage() {
   const [activeTab, setActiveTab] = useState("current");
@@ -135,11 +136,12 @@ export default function PromotionsPage() {
               transition={{ duration: 0.5 }}
               className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow"
             >
-              <div className="aspect-w-16 aspect-h-9 bg-gray-200">
-                <img
+              <div className="relative w-full h-64 rounded-lg overflow-hidden">
+                <Image
                   src={promo.img}
                   alt={promo.title}
-                  className="object-cover w-full h-full"
+                  fill
+                  className="object-cover"
                 />
               </div>
               <div className="p-6">
