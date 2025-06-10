@@ -18,7 +18,6 @@ export default function Navbar() {
     { name: "Home", href: "/", exact: true },
     { name: "Father's Day Special", href: "/promotions/fathers-day" },
     { name: "Our Cakes", href: "/cakes" },
-    { name: "Gifts", href: "/gifts" },
     { name: "Custom Order", href: "/order" },
     { name: "Contact", href: "/contact" },
   ];
