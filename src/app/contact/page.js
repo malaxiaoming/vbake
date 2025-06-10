@@ -61,7 +61,7 @@ export default function Contact() {
       >
         <h1 className="text-4xl sm:text-5xl font-bold text-gray-800">Contact Us</h1>
         <p className="text-base sm:text-lg text-gray-600 mt-2 sm:mt-4">
-          We'd love to hear from you!
+          We&apos;d love to hear from you!
         </p>
       </motion.div>
 
