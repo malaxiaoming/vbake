@@ -7,6 +7,8 @@ export default function FacebookPixel() {
   const pixelId = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID;
 
   useEffect(() => {
+    console.log('Facebook Pixel ID:', pixelId); // Debug log
+
     if (!pixelId) {
       console.warn('Facebook Pixel ID is not configured');
       return;
