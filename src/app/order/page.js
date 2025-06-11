@@ -151,16 +151,18 @@ function OrderContent() {
   }, [selectedProduct]);
 
   useEffect(() => {
-    // Track page view
+    // Initialize Facebook Pixel
+    const pixelId = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID;
+    const expectedId = '999278518697592';
+    
+    console.log('Order page - Facebook Pixel ID:', {
+      Expected: expectedId,
+      Current: pixelId
+    });
+
     if (typeof window !== 'undefined' && window.fbq) {
-      window.fbq('track', 'ViewContent', {
-        content_name: 'Order Page',
-        content_category: 'Order',
-        content_type: 'Page',
-        content_ids: ['order-page-2025'],
-        value: 0,
-        currency: 'MYR'
-      });
+      window.fbq('init', expectedId);
+      window.fbq('track', 'PageView');
     }
   }, []);
 
