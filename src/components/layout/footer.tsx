@@ -1,3 +1,4 @@
+/** @jsxImportSource react */
 "use client";
 
 import Link from "next/link";
@@ -115,7 +116,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className="mt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} VBake. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} VBakeBaker (SSM: {contactInfo.ssm}). All rights reserved.</p>
         </div>
       </div>
     </footer>
