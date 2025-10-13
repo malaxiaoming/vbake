@@ -1,3 +1,3 @@
 export const promotions = {
-    "2025-06-15": "Happy Father's Day!",
+    // Archived promotions can be found in src/archive/promotions/
   };

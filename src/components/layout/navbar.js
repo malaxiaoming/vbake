@@ -16,7 +16,6 @@ export default function Navbar() {
 
   const navItems = [
     { name: "Home", href: "/", exact: true },
-    { name: "Father's Day Special", href: "/promotions/fathers-day" },
     { name: "Our Cakes", href: "/cakes" },
     { name: "Custom Order", href: "/order" },
     { name: "Contact", href: "/contact" },

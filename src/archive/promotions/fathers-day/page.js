@@ -102,7 +102,7 @@ export default function FathersDayPage() {
                 src="https://res.cloudinary.com/xiaomiao/video/upload/v1749462016/fathers-day-2025-video_lqiixm.mp4"
                 className="w-full h-full object-contain"
                 controls
-                poster="/images/promotions/fathers-day-4.png"
+                poster="/images/archive/promotions/fathers-day/fathers-day-4.png"
               />
             </motion.div>
 
@@ -147,7 +147,7 @@ export default function FathersDayPage() {
         >
           <div className="w-full">
             <Image
-              src="/images/promotions/fathers-day-1.jpg"
+              src="/images/archive/promotions/fathers-day/fathers-day-1.jpg"
               alt="Father's Day Special"
               width={1200}
               height={800}
@@ -194,7 +194,7 @@ export default function FathersDayPage() {
               </ul>
               <div className="mt-6">
                 <Image
-                  src="/images/promotions/fathers-day-7.jpg"
+                  src="/images/archive/promotions/fathers-day/fathers-day-7.jpg"
                   alt="Delicious Bundle"
                   width={400}
                   height={300}
@@ -237,7 +237,7 @@ export default function FathersDayPage() {
               </ul>
               <div className="mt-6">
                 <Image
-                  src="/images/promotions/fathers-day-2.jpg"
+                  src="/images/archive/promotions/fathers-day/fathers-day-2.jpg"
                   alt="Luxury Bundle"
                   width={400}
                   height={300}
@@ -273,7 +273,7 @@ export default function FathersDayPage() {
               </ul>
               <div className="mt-6">
                 <Image
-                  src="/images/promotions/fathers-day-3.jpg"
+                  src="/images/archive/promotions/fathers-day/fathers-day-3.jpg"
                   alt="Royal Bundle"
                   width={400}
                   height={300}
