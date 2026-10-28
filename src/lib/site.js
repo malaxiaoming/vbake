@@ -1,12 +1,8 @@
 import { contactInfo } from "@/data/contact";
 
-// Public site address. Set NEXT_PUBLIC_SITE_URL to the custom domain; on Vercel it otherwise
-// falls back to the project's production domain.
-export const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ||
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : "http://localhost:3000");
+// Public site address, used for the sitemap, share previews and Google structured data.
+// NEXT_PUBLIC_SITE_URL can override it (e.g. for testing on another domain).
+export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.vbakekl.com";
 
 // schema.org Bakery details for Google search results
 export const bakeryJsonLd = {
