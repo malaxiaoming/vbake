@@ -18,7 +18,7 @@ export const cakes = [
     id: "edible-printing",
     name: "Edible Printing Cake",
     img: "/images/cakes/edible-print-cake.webp",
-    description: "Customize your cake with edible printed images, perfect for personal photos, logos, or special messages. High-quality printing that&apos;s completely safe to eat.",
+    description: "Customize your cake with edible printed images, perfect for personal photos, logos, or special messages. High-quality printing that's completely safe to eat.",
     occasions: ["Birthday", "Weddings", "Wedding Anniversary", "Company Anniversary"],
     sizes: {
       "5-inch": "RM 130",
@@ -158,4 +158,10 @@ export const getAllFlavors = () => {
     cake.flavors.forEach(flavor => flavors.add(flavor));
   });
   return Array.from(flavors);
+};
+
+// Lowest price across a cake's sizes, e.g. "RM 130"
+export const getStartingPrice = (cake) => {
+  const prices = Object.values(cake.sizes).map((price) => parseInt(price.replace(/[^0-9]/g, "")));
+  return `RM ${Math.min(...prices)}`;
 };

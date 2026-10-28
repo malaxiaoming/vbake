@@ -1,11 +1,13 @@
-import { Inter } from "next/font/google";
+import { Fraunces, DM_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 import FacebookPixel from "@/components/FacebookPixel";
+import WhatsAppButton from "@/components/layout/whatsapp-button";
 import { Suspense } from "react";
 
-const inter = Inter({ subsets: ["latin"] });
+const heading = Fraunces({ subsets: ["latin"], variable: "--font-heading", weight: ["500", "600", "700"] });
+const body = DM_Sans({ subsets: ["latin"], variable: "--font-body" });
 
 export const metadata = {
   title: {
@@ -34,15 +36,16 @@ export default function RootLayout({ children }) {
       <head>
         <meta name="facebook-domain-verification" content="ctw4i2zalbteixmeo6z9qqauaqyzz0" />
       </head>
-      <body className={inter.className}>
+      <body className={`${heading.variable} ${body.variable}`}>
         <Suspense>
           <FacebookPixel />
         </Suspense>
         <Navbar />
-        <main className="min-h-screen pt-16">
+        <main className="min-h-screen">
           {children}
         </main>
         <Footer />
+        <WhatsAppButton />
       </body>
     </html>
   );

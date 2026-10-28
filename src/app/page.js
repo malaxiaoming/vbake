@@ -1,196 +1,234 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
 import Link from "next/link";
-import Image from 'next/image';
-import { promotions } from "@/data/promotions";
-import { events } from "@/data/events";
+import Image from "next/image";
+import { ArrowRight, CalendarHeart, Clock, MessageCircle, Truck } from "lucide-react";
+import { cakes, getStartingPrice } from "@/data/cakes";
 import { contactInfo } from "@/data/contact";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+import PromoCarousel from "@/components/home/promo-carousel";
+import FlamingReveal from "@/components/home/flaming-reveal";
 
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
+const signatureCakes = [
+  { id: "coriander", tagline: "Our most-talked-about cake. Fresh, bold and unlike anything else." },
+  { id: "flaming", tagline: "Light it up and watch the top burn away to reveal a hidden photo." },
+  { id: "mahjong", tagline: "A playful centrepiece for the mahjong lovers in your life." },
+].map((item) => ({ ...cakes.find((cake) => cake.id === item.id), tagline: item.tagline }));
+
+const highlights = [
+  { icon: CalendarHeart, title: "Made to order", text: "Every cake baked fresh for your date" },
+  { icon: Truck, title: "Delivery around KL", text: "Free delivery for selected areas" },
+  { icon: MessageCircle, title: "Order on WhatsApp", text: "Quick replies, easy changes" },
+  { icon: Clock, title: "Open 7 days", text: contactInfo.businessHours.weekdays },
+];
+
+const steps = [
+  { title: "Choose your cake", text: "Browse our designs and pick the one that fits your celebration." },
+  { title: "Pick size, flavour & date", text: "Sizes from 5 to 10 inch. Choose your delivery date on the calendar." },
+  { title: "Send on WhatsApp", text: "Your order arrives in our chat. We confirm the details and payment with you." },
+];
 
 export default function Home() {
-  const [isMounted, setIsMounted] = useState(false);
-  const [Swiper, setSwiper] = useState(null);
-  const [SwiperSlide, setSwiperSlide] = useState(null);
-  const [SwiperModules, setSwiperModules] = useState(null);
-  const [date, setDate] = useState(new Date());
-
-  useEffect(() => {
-    setIsMounted(true);
-    // Dynamically import Swiper components
-    import('swiper/react').then((mod) => {
-      setSwiper(() => mod.Swiper);
-      setSwiperSlide(() => mod.SwiperSlide);
-    });
-    // Dynamically import Swiper modules
-    import('swiper/modules').then((mod) => {
-      setSwiperModules({
-        Autoplay: mod.Autoplay,
-        Pagination: mod.Pagination,
-        Navigation: mod.Navigation
-      });
-    });
-  }, []);
-
-  if (!isMounted) {
-    return null; // or a loading spinner
-  }
-
   return (
-    <div className="bg-pink-50 min-h-screen">
-      {/* Hero Section */}
-      <motion.div
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="text-center py-20 bg-gradient-to-r from-pink-200 to-red-200"
-      >
-        <h1 className="text-5xl font-bold text-gray-800">
-          Sweet Delights Bakery
-        </h1>
-        <p className="text-lg text-gray-600 mt-4">
-          More Than Cakes – We Create Sweet Memories
-        </p>
-        <motion.div whileHover={{ scale: 1.1 }}>
-          <Link href="/order">
-            <Button className="mt-6 bg-red-500 text-white px-6 py-3 rounded-xl">
-            Order Now
-          </Button>
-          </Link>
-        </motion.div>
-      </motion.div>
-
-      {/* Promotion Carousel */}
-      <div className="max-w-4xl mx-auto mb-10">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">🎉 This Month&apos;s Promotions 🎉</h2>
-        {Swiper && SwiperSlide && SwiperModules && (
-        <Swiper
-            modules={[SwiperModules.Autoplay, SwiperModules.Pagination, SwiperModules.Navigation]}
-          spaceBetween={20}
-          slidesPerView={1}
-          loop={true}
-          autoplay={{ delay: 3000 }}
-          pagination={{ clickable: true }}
-          navigation={true}
-          className="rounded-xl shadow-lg"
-        >
-          {events.map((promo, index) => (
-            <SwiperSlide key={index}>
-                <div className="relative aspect-[4/3]">
-                  <Image
-                    src={promo.img}
-                    alt={`Promotion ${index + 1}`}
-                    fill
-                    sizes="100vw"
-                    className="object-cover rounded-xl"
-                    priority={index === 0}
-                  />
-                </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-        )}
-      </div>
-
-      {/* Order & Delivery Section */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        className="text-center py-12 bg-white"
-      >
-        <h2 className="text-3xl font-semibold">Order & Delivery</h2>
-        <p className="mt-2 text-gray-600">
-          Pre-order required | Same-day delivery available*
-        </p>
-
-        {/* Calendar Section */}
-        <div className="max-w-2xl mx-auto mt-8 mb-4">
-          <Calendar
-            onChange={setDate}
-            value={date}
-            className="custom-calendar w-full"
-            tileContent={({ date }) => {
-              const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-              return promotions[key] ? (
-                <p className="text-[9px] sm:text-xs text-red-500 font-semibold whitespace-normal break-words px-0 sm:px-0.5 leading-tight">
-                  {promotions[key]}
-                </p>
-              ) : null;
-            }}
-          />
-          {promotions[`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`] && (
-            <div className="mt-4 bg-red-50 p-4 rounded-lg">
-              <h3 className="text-lg font-semibold text-red-600 mb-2">Today&apos;s Promotion</h3>
-              <p className="text-gray-700">
-                {promotions[`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`]}
+    <div>
+      {/* Hero */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-blush/60 to-cream">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 pb-14 pt-10 sm:px-6 md:grid-cols-2 md:pb-20 md:pt-16">
+          <div className="text-center md:text-left">
+            <p className="eyebrow">Home bakery · Sri Petaling, KL</p>
+            <h1 className="mt-4 text-4xl font-semibold leading-tight text-cocoa sm:text-5xl lg:text-6xl">
+              Custom cakes, baked with love in KL
+            </h1>
+            <p className="mx-auto mt-5 max-w-md text-lg text-cocoa-soft md:mx-0">
+              Birthday, wedding and surprise cakes made to order, from our signature Coriander Cake to
+              photo-reveal Flaming Cakes.
             </p>
+            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center md:justify-start">
+              <Link href="/order" className="btn-primary w-full sm:w-auto">
+                Order a cake <ArrowRight size={18} />
+              </Link>
+              <Link href="/cakes" className="btn-outline w-full sm:w-auto">
+                Browse cakes
+              </Link>
             </div>
-          )}
+            <p className="mt-5 text-sm text-cocoa-soft">
+              Cakes from <span className="font-semibold text-cocoa">RM 130</span> · 5 to 10 inch
+            </p>
+          </div>
+
+          <div className="relative mx-auto w-full max-w-md">
+            <div className="absolute -left-6 -top-6 h-40 w-40 rounded-full bg-sage" aria-hidden="true" />
+            <div className="absolute -bottom-6 -right-4 h-32 w-32 rounded-full bg-blush-deep/60" aria-hidden="true" />
+            <div className="relative grid grid-cols-5 gap-3">
+              <div className="relative col-span-3 row-span-2 aspect-[3/4] overflow-hidden rounded-3xl shadow-lg">
+                <Image
+                  src="/images/cakes/coriander-cake.webp"
+                  alt="VBake Coriander Cake with fresh coriander on top"
+                  fill
+                  sizes="(max-width: 768px) 60vw, 300px"
+                  className="object-cover"
+                  priority
+                />
+              </div>
+              <div className="relative col-span-2 aspect-[3/4] overflow-hidden rounded-3xl shadow-lg">
+                <Image
+                  src="/images/cakes/crystal-cake.webp"
+                  alt="VBake Crystal Cake"
+                  fill
+                  sizes="(max-width: 768px) 40vw, 200px"
+                  className="object-cover"
+                />
+              </div>
+              <div className="relative col-span-2 aspect-[3/4] overflow-hidden rounded-3xl shadow-lg">
+                <Image
+                  src="/images/cakes/mahjong-cake.webp"
+                  alt="VBake Mahjong Cake"
+                  fill
+                  sizes="(max-width: 768px) 40vw, 200px"
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </div>
         </div>
+      </section>
 
-        <p className="mt-4 text-sm text-gray-500 italic">
-          * Same-day delivery subject to certain cake options. Please contact us for more details.
-        </p>
-      </motion.div>
+      {/* Highlights */}
+      <section className="border-y border-cocoa/10 bg-white/60">
+        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-4 py-8 sm:px-6 md:grid-cols-4">
+          {highlights.map(({ icon: Icon, title, text }) => (
+            <div key={title} className="flex items-start gap-3">
+              <span className="rounded-full bg-sage p-2.5 text-sage-deep">
+                <Icon size={20} />
+              </span>
+              <div>
+                <p className="font-semibold">{title}</p>
+                <p className="text-sm text-cocoa-soft">{text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
-
-      {/* Contact Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="text-center py-16 bg-pink-100"
-      >
-        <h2 className="text-3xl font-semibold">Get in Touch</h2>
-        <div className="mt-4 space-y-2">
-          <p className="flex items-center justify-center space-x-2">
-            <span>📍</span>
-            <a 
-              href={contactInfo.location.googleMapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-red-500 transition-colors"
+      {/* Signature cakes */}
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
+        <div className="text-center">
+          <p className="eyebrow">Only at VBake</p>
+          <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Our signature cakes</h2>
+        </div>
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {signatureCakes.map((cake) => (
+            <Link
+              key={cake.id}
+              href={`/order?cakeId=${cake.id}`}
+              className="card group overflow-hidden transition-transform hover:-translate-y-1"
             >
-              {contactInfo.location.address}
-            </a>
+              <div className="relative aspect-[4/3] overflow-hidden sm:aspect-[4/5]">
+                <Image
+                  src={cake.img}
+                  alt={cake.name}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div className="p-6">
+                <div className="flex items-baseline justify-between gap-3">
+                  <h3 className="text-xl font-semibold">{cake.name}</h3>
+                  <p className="shrink-0 text-sm text-cocoa-soft">
+                    from <span className="font-semibold text-rose">{getStartingPrice(cake)}</span>
+                  </p>
+                </div>
+                <p className="mt-2 text-cocoa-soft">{cake.tagline}</p>
+                <span className="mt-4 inline-flex items-center gap-1 font-semibold text-rose">
+                  Order this cake <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+        <div className="mt-10 text-center">
+          <Link href="/cakes" className="btn-outline">
+            See all cakes <ArrowRight size={18} />
+          </Link>
+        </div>
+      </section>
+
+      {/* Flaming cake feature */}
+      <section className="bg-sage/60">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 md:grid-cols-2 md:py-20">
+          <div className="mx-auto w-full max-w-sm">
+            <FlamingReveal />
+            <p className="mt-3 text-center text-sm text-cocoa-soft">Drag the slider to see the reveal</p>
+          </div>
+          <div className="text-center md:text-left">
+            <p className="eyebrow">The Flaming Cake</p>
+            <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">A surprise they won&apos;t forget</h2>
+            <p className="mt-5 text-lg text-cocoa-soft">
+              Write your message on top. When the candle is lit, the top layer burns away to reveal your
+              favourite photo, printed underneath. Perfect for birthdays and anniversaries.
+            </p>
+            <Link href="/order?cakeId=flaming" className="btn-primary mt-8">
+              Order a Flaming Cake <ArrowRight size={18} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* What's new */}
+      <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6 md:py-20">
+        <div className="mb-8 text-center">
+          <p className="eyebrow">What&apos;s new</p>
+          <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Fresh from our kitchen</h2>
+        </div>
+        <PromoCarousel />
+      </section>
+
+      {/* How to order */}
+      <section className="bg-white/60">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
+          <div className="text-center">
+            <p className="eyebrow">How it works</p>
+            <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Ordering is easy</h2>
+          </div>
+          <ol className="mt-10 grid gap-6 md:grid-cols-3">
+            {steps.map((step, index) => (
+              <li key={step.title} className="card flex gap-4 p-5 md:block md:p-6">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blush font-display text-lg font-semibold text-rose">
+                  {index + 1}
+                </span>
+                <div>
+                  <h3 className="text-xl font-semibold md:mt-4">{step.title}</h3>
+                  <p className="mt-1 text-cocoa-soft md:mt-2">{step.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <p className="mt-8 text-center text-sm text-cocoa-soft">
+            Pre-order is recommended. Same-day delivery is available for selected cakes, so just ask us.
           </p>
-          <p className="flex items-center justify-center space-x-2">
-            <span>📞</span>
-            <a 
+        </div>
+      </section>
+
+      {/* Call to action */}
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
+        <div className="rounded-[2rem] bg-gradient-to-br from-blush to-blush-deep/70 px-6 py-12 text-center sm:px-12">
+          <h2 className="text-3xl font-semibold sm:text-4xl">Planning a celebration?</h2>
+          <p className="mx-auto mt-4 max-w-lg text-lg text-cocoa-soft">
+            Tell us your idea and we&apos;ll help you design the perfect cake.
+          </p>
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Link href="/order" className="btn-primary w-full sm:w-auto">
+              Start your order
+            </Link>
+            <a
               href={contactInfo.phone.whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-red-500 transition-colors"
+              className="btn-outline w-full sm:w-auto"
             >
-              {contactInfo.phone.number}
+              WhatsApp {contactInfo.phone.number}
             </a>
-          </p>
-          <p className="flex items-center justify-center space-x-2">
-            <span>✉️</span>
-            <a 
-              href={`mailto:${contactInfo.email}`}
-              className="hover:text-red-500 transition-colors"
-            >
-              {contactInfo.email}
-            </a>
-          </p>
-          <p className="flex items-center justify-center space-x-2">
-            <span>🕒</span>
-            <span>
-              {contactInfo.businessHours.weekdays} ({contactInfo.businessHours.note})
-            </span>
-          </p>
+          </div>
         </div>
-      </motion.div>
+      </section>
     </div>
   );
 }

@@ -39,20 +39,20 @@ const calendarStyles = `
     padding: 0;
   }
   .react-calendar__tile--now {
-    background: #fef2f2;
+    background: #fbeee2;
   }
   .react-calendar__tile--active {
-    background: #86efac !important;
+    background: #eebcb6 !important;
   }
   .react-calendar__tile--active:enabled:hover,
   .react-calendar__tile--active:enabled:focus {
-    background: #4ade80 !important;
+    background: #e3a59e !important;
   }
   .react-calendar__month-view__days__day--neighboringMonth {
     color: #9ca3af;
   }
   .react-calendar__month-view__days__day--weekend {
-    color: #ef4444;
+    color: #b4535e;
   }
   .react-calendar__navigation {
     margin-bottom: 0.5em;
@@ -336,22 +336,23 @@ function OrderContent() {
   };
 
   return (
-    <div className="bg-pink-50 min-h-screen p-3 sm:p-6">
+    <div className="px-3 pb-16 pt-8 sm:px-6 sm:pt-12">
       <style>{calendarStyles}</style>
       <style>{customStyles}</style>
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="text-center py-6 sm:py-10 bg-gradient-to-r from-pink-200 to-red-200"
+        className="text-center"
       >
-        <h1 className="text-4xl sm:text-5xl font-bold text-gray-800">Order Now</h1>
-        <p className="text-base sm:text-lg text-gray-600 mt-2 sm:mt-4">
-          Select your product and place your order!
+        <p className="eyebrow">Made fresh for your date</p>
+        <h1 className="mt-3 text-4xl sm:text-5xl font-semibold">Order your cake</h1>
+        <p className="mx-auto mt-3 max-w-md text-base sm:text-lg text-cocoa-soft">
+          Choose your cake, pick a date and send your order to us on WhatsApp.
         </p>
       </motion.div>
 
-      <div className="max-w-3xl mx-auto bg-white p-4 sm:p-8 shadow-lg rounded-lg mt-3 sm:mt-6">
+      <div className="card max-w-3xl mx-auto p-5 sm:p-10 mt-6 sm:mt-8">
         {/* Product Type Selection */}
         {/* <div className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">Select Product Type</h2>
@@ -367,8 +368,8 @@ function OrderContent() {
                 onClick={() => setProductType(type.id)}
                 className={`p-4 rounded-lg border-2 transition-all ${
                   productType === type.id
-                    ? "bg-red-500 text-white border-red-500"
-                    : "bg-white text-gray-700 border-gray-300 hover:border-red-300"
+                    ? "bg-rose text-white border-rose"
+                    : "bg-white text-cocoa border-cocoa/15 hover:border-blush-deep"
                 }`}
               >
                 {type.label}
@@ -379,9 +380,9 @@ function OrderContent() {
 
         {/* Product Selection Section */}
         <div className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Select Your {productType.charAt(0).toUpperCase() + productType.slice(1)}</h2>
+          <h2 className="text-2xl font-semibold mb-5"><span className="mr-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-blush align-middle text-lg text-rose">1</span>Choose your {productType.slice(0, -1)}</h2>
         <select
-          className="w-full p-2 border rounded mb-4"
+          className="w-full rounded-xl border border-cocoa/15 bg-white px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-rose/40"
           value={selectedProduct}
           onChange={(e) => setSelectedProduct(e.target.value)}
         >
@@ -410,7 +411,7 @@ function OrderContent() {
 
           {selectedProductDetails && (
             <div className="mt-4">
-              <p className="text-gray-600 mb-4 text-sm italic">
+              <p className="text-cocoa-soft mb-4 text-sm italic">
                 {selectedProductDetails.description}
               </p>
               <div className="relative w-full max-w-md mx-auto aspect-square rounded-lg overflow-hidden">
@@ -430,7 +431,7 @@ function OrderContent() {
                     {/* Before/After Slider for Flaming Cake */}
                     {selectedProductDetails.name === "Flaming Cake" && (
                       <div className="mt-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-cocoa mb-2">
                           Before & After Effect
                         </label>
                         <div className="w-full max-w-md mx-auto">
@@ -444,7 +445,7 @@ function OrderContent() {
                             }}
                             position={50}
                           />
-                          <div className="flex justify-between mt-2 text-sm text-gray-600">
+                          <div className="flex justify-between mt-2 text-sm text-cocoa-soft">
                             <span>Before</span>
                             <span>After</span>
                           </div>
@@ -454,15 +455,15 @@ function OrderContent() {
 
                     {/* Flavor Selection */}
                     <div className="mt-4">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-cocoa mb-2">
                         Select Flavor
                       </label>
                       <div className="border rounded-lg p-3">
                         <select
                           value={selectedFlavor}
                           onChange={(e) => setSelectedFlavor(e.target.value)}
-                          className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 ${
-                            fixedFlavor ? "bg-gray-100 cursor-not-allowed" : ""
+                          className={`w-full px-4 py-2 border border-cocoa/15 rounded-lg focus:ring-2 focus:ring-rose focus:border-rose ${
+                            fixedFlavor ? "bg-cream-deep cursor-not-allowed" : ""
                           }`}
                           disabled={!!fixedFlavor}
                         >
@@ -496,20 +497,20 @@ function OrderContent() {
                           )}
                         </select>
                         {fixedFlavor && (
-                          <p className="mt-2 text-sm text-gray-500">
+                          <p className="mt-2 text-sm text-cocoa-soft">
                             {selectedProduct} is only available in {getFlavorById(fixedFlavor).name}
                           </p>
                         )}
                         {selectedFlavor && (
-                          <div className="mt-2 text-sm text-gray-600">
+                          <div className="mt-2 text-sm text-cocoa-soft">
                             <p>{getFlavorById(selectedFlavor).description}</p>
                             {getFlavorById(selectedFlavor).bookingRequirement && (
-                              <p className="text-red-500 mt-1">
+                              <p className="text-rose mt-1">
                                 Note: {getFlavorById(selectedFlavor).bookingRequirement}
                               </p>
                             )}
                             {getFlavorById(selectedFlavor).price !== "RM 0" && (
-                              <p className="text-red-500 mt-1">
+                              <p className="text-rose mt-1">
                                 Additional cost: {getFlavorById(selectedFlavor).price}
                               </p>
                             )}
@@ -520,7 +521,7 @@ function OrderContent() {
 
                     {/* Shape Selection */}
                     {/* <div className="mt-4">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-cocoa mb-2">
                         Select Shape
                       </label>
                       <div className="flex justify-center gap-4">
@@ -561,8 +562,8 @@ function OrderContent() {
                             onClick={() => setSelectedShape(shape)}
                             className={`p-4 rounded-lg border-2 transition-all flex flex-col items-center gap-2 ${
                               selectedShape === shape
-                                ? "bg-red-500 text-white border-red-500"
-                                : "bg-white text-gray-700 border-gray-300 hover:border-red-300"
+                                ? "bg-rose text-white border-rose"
+                                : "bg-white text-cocoa border-cocoa/15 hover:border-blush-deep"
                             }`}
                           >
                             <div className="w-12 h-12 flex items-center justify-center">
@@ -581,23 +582,23 @@ function OrderContent() {
 
                     {/* Size Selection */}
                     <div className="mt-4">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-cocoa mb-2">
                         Select Size
                       </label>
-                      <div className="flex justify-center gap-4">
+                      <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
                         {Object.entries(selectedProductDetails.sizes).map(([size, price]) => (
                           <button
                             key={size}
                             onClick={() => setSelectedSize(size)}
-                            className={`px-6 py-2 rounded-lg border-2 transition-all ${
+                            className={`min-w-[4.5rem] flex-1 max-w-[8rem] px-2 py-3 rounded-2xl border-2 transition-all ${
                               selectedSize === size
-                                ? "bg-red-500 text-white border-red-500"
-                                : "bg-white text-gray-700 border-gray-300 hover:border-red-300"
+                                ? "bg-rose text-white border-rose"
+                                : "bg-white text-cocoa border-cocoa/15 hover:border-blush-deep"
                             }`}
                           >
                             <div className="font-medium">{size}</div>
                             <div className="text-sm">{price}</div>
-                            <div className="text-xs text-gray-500">
+                            <div className={`text-xs ${selectedSize === size ? "text-white/80" : "text-cocoa-soft"}`}>
                               {size === "5-inch" ? "2-4 pax" :
                                size === "6-inch" ? "4-6 pax" :
                                size === "8-inch" ? "8-14 pax" :
@@ -613,15 +614,15 @@ function OrderContent() {
                 {/* Catering-specific options */}
                 {productType === "catering" && (
                   <div className="mt-4">
-                    <div className="text-sm text-gray-600">
+                    <div className="text-sm text-cocoa-soft">
                       <p>Minimum guests: {selectedProductDetails.minGuests}</p>
                       <p>Maximum guests: {selectedProductDetails.maxGuests}</p>
                     </div>
                     <div className="mt-4">
-                      <h4 className="font-medium text-gray-800">Menu Includes:</h4>
+                      <h4 className="font-medium text-cocoa">Menu Includes:</h4>
                       <ul className="mt-2 space-y-1">
                         {selectedProductDetails.menu.map((item) => (
-                          <li key={item} className="text-gray-600 text-sm">
+                          <li key={item} className="text-cocoa-soft text-sm">
                             • {item}
                           </li>
                         ))}
@@ -634,10 +635,10 @@ function OrderContent() {
                 {productType === "gifts" && (
                   <div className="mt-4">
                     <div className="mt-4">
-                      <h4 className="font-medium text-gray-800">Contents:</h4>
+                      <h4 className="font-medium text-cocoa">Contents:</h4>
                       <ul className="mt-2 space-y-1">
                         {selectedProductDetails.contents.map((item) => (
-                          <li key={item} className="text-gray-600 text-sm">
+                          <li key={item} className="text-cocoa-soft text-sm">
                             • {item}
                           </li>
                         ))}
@@ -650,10 +651,10 @@ function OrderContent() {
                 {productType === "flowers" && (
                   <div className="mt-4">
                     <div className="mt-4">
-                      <h4 className="font-medium text-gray-800">Features:</h4>
+                      <h4 className="font-medium text-cocoa">Features:</h4>
                       <ul className="mt-2 space-y-1">
                         {selectedProductDetails.features.map((feature) => (
-                          <li key={feature} className="text-gray-600 text-sm">
+                          <li key={feature} className="text-cocoa-soft text-sm">
                             • {feature}
                           </li>
                         ))}
@@ -673,7 +674,7 @@ function OrderContent() {
             
             {/* Flowers Section */}
             <div className="mb-6">
-              <h3 className="text-lg font-medium text-gray-800 mb-3">Flowers</h3>
+              <h3 className="text-lg font-medium text-cocoa mb-3">Flowers</h3>
               <div className="relative">
                 <div className="overflow-x-auto pb-2 hide-scrollbar">
                   <div className="flex gap-2 min-w-min">
@@ -683,8 +684,8 @@ function OrderContent() {
                         onClick={() => toggleAddon(addon.id)}
                         className={`flex-none w-36 sm:w-48 p-2 sm:p-3 rounded-lg border-2 transition-all ${
                           selectedAddons.includes(addon.id)
-                            ? "bg-red-50 border-red-500"
-                            : "bg-white border-gray-200 hover:border-red-300"
+                            ? "bg-blush/40 border-rose"
+                            : "bg-white border-cocoa/15 hover:border-blush-deep"
                         }`}
                       >
                         <div className="relative w-full aspect-square mb-1.5 sm:mb-2 rounded-lg overflow-hidden">
@@ -696,14 +697,14 @@ function OrderContent() {
                           />
                         </div>
                         <div className="text-left">
-                          <h4 className="font-medium text-gray-900 text-xs sm:text-sm">{addon.name}</h4>
-                          <p className="text-[10px] sm:text-xs text-gray-600 mt-0.5">{addon.description}</p>
+                          <h4 className="font-medium text-cocoa text-xs sm:text-sm">{addon.name}</h4>
+                          <p className="text-[10px] sm:text-xs text-cocoa-soft mt-0.5">{addon.description}</p>
                           <div className="flex items-center justify-between mt-1">
-                            <p className="text-[10px] sm:text-xs font-medium text-red-600">{addon.price}</p>
+                            <p className="text-[10px] sm:text-xs font-medium text-rose">{addon.price}</p>
                             <div className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full border-2 flex items-center justify-center ${
                               selectedAddons.includes(addon.id)
-                                ? "bg-red-500 border-red-500"
-                                : "border-gray-300"
+                                ? "bg-rose border-rose"
+                                : "border-cocoa/15"
                             }`}>
                               {selectedAddons.includes(addon.id) && (
                                 <svg className="w-1.5 h-1.5 sm:w-2 sm:h-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -722,7 +723,7 @@ function OrderContent() {
 
             {/* Decorations Section */}
             <div>
-              <h3 className="text-lg font-medium text-gray-800 mb-3">Decorations</h3>
+              <h3 className="text-lg font-medium text-cocoa mb-3">Decorations</h3>
               <div className="relative">
                 <div className="overflow-x-auto pb-2 hide-scrollbar">
                   <div className="flex gap-2 min-w-min">
@@ -732,8 +733,8 @@ function OrderContent() {
                         onClick={() => toggleAddon(addon.id)}
                         className={`flex-none w-36 sm:w-48 p-2 sm:p-3 rounded-lg border-2 transition-all ${
                           selectedAddons.includes(addon.id)
-                            ? "bg-red-50 border-red-500"
-                            : "bg-white border-gray-200 hover:border-red-300"
+                            ? "bg-blush/40 border-rose"
+                            : "bg-white border-cocoa/15 hover:border-blush-deep"
                         }`}
                       >
                         <div className="relative w-full aspect-square mb-1.5 sm:mb-2 rounded-lg overflow-hidden">
@@ -745,14 +746,14 @@ function OrderContent() {
                           />
                         </div>
                         <div className="text-left">
-                          <h4 className="font-medium text-gray-900 text-xs sm:text-sm">{addon.name}</h4>
-                          <p className="text-[10px] sm:text-xs text-gray-600 mt-0.5">{addon.description}</p>
+                          <h4 className="font-medium text-cocoa text-xs sm:text-sm">{addon.name}</h4>
+                          <p className="text-[10px] sm:text-xs text-cocoa-soft mt-0.5">{addon.description}</p>
                           <div className="flex items-center justify-between mt-1">
-                            <p className="text-[10px] sm:text-xs font-medium text-red-600">{addon.price}</p>
+                            <p className="text-[10px] sm:text-xs font-medium text-rose">{addon.price}</p>
                             <div className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full border-2 flex items-center justify-center ${
                               selectedAddons.includes(addon.id)
-                                ? "bg-red-500 border-red-500"
-                                : "border-gray-300"
+                                ? "bg-rose border-rose"
+                                : "border-cocoa/15"
                             }`}>
                               {selectedAddons.includes(addon.id) && (
                                 <svg className="w-1.5 h-1.5 sm:w-2 sm:h-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -772,12 +773,12 @@ function OrderContent() {
         )}
 
         {/* Total Amount Display */}
-        <div className="mb-8 p-4 bg-gray-50 rounded-lg">
+        <div className="mb-10 rounded-2xl bg-cream p-5">
           <div className="flex justify-between items-center">
-            <h3 className="text-lg font-medium text-gray-800">Total Amount:</h3>
-            <span className="text-2xl font-bold text-red-600">RM {calculateTotal()}</span>
+            <h3 className="text-lg font-medium text-cocoa">Total Amount:</h3>
+            <span className="text-2xl font-bold text-rose">RM {calculateTotal()}</span>
           </div>
-          <div className="mt-2 text-sm text-gray-600">
+          <div className="mt-2 text-sm text-cocoa-soft">
             {productType === "cakes" && selectedProductDetails && (
               <>
                 <div className="flex justify-between">
@@ -815,23 +816,24 @@ function OrderContent() {
 
         {/* Delivery Date Section */}
         <div className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4">Choose Delivery Date</h2>
+        <h2 className="text-2xl font-semibold mb-5"><span className="mr-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-blush align-middle text-lg text-rose">2</span>Choose delivery date</h2>
         <Calendar
           onChange={setDate}
           value={date}
+          minDate={new Date()}
             className="custom-calendar w-full"
             style={{ width: '100%', height: 'auto' }}
           tileContent={({ date }) => {
               const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
             return promotions[key] ? (
-                <p className="text-[9px] sm:text-xs text-red-500 font-semibold whitespace-normal break-words px-0 sm:px-0.5 leading-tight">
+                <p className="text-[9px] sm:text-xs text-rose font-semibold whitespace-normal break-words px-0 sm:px-0.5 leading-tight">
                 {promotions[key]}
               </p>
             ) : null;
           }}
         />
           {promotions[`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`] && (
-            <p className="mt-1 sm:mt-2 text-sm sm:text-lg font-semibold text-red-600">
+            <p className="mt-1 sm:mt-2 text-sm sm:text-lg font-semibold text-rose">
               {promotions[`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`]}
           </p>
         )}
@@ -839,36 +841,36 @@ function OrderContent() {
 
         {/* Order Details Section */}
         <div>
-          <h2 className="text-2xl font-semibold mb-4">Order Details</h2>
-          <h4 className="text-md font-semibold mt-1 mb-1">Contact Number</h4>
+          <h2 className="text-2xl font-semibold mb-5"><span className="mr-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-blush align-middle text-lg text-rose">3</span>Your details</h2>
+          <h4 className="block text-sm font-semibold mb-1.5">Contact Number</h4>
           <input
             type="tel"
             placeholder="e.g., 012-345 6789"
-            className="w-full p-2 border rounded mb-3"
+            className="w-full rounded-xl border border-cocoa/15 bg-white px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-rose/40"
             value={customerPhone}
             onChange={(e) => setCustomerPhone(e.target.value)}
           />
-          <h4 className="text-md font-semibold mt-1 mb-1">Occasion</h4>
+          <h4 className="block text-sm font-semibold mb-1.5">Occasion</h4>
           <input
           type="text"
             placeholder="e.g., Birthday, Wedding, Anniversary"
-          className="w-full p-2 border rounded mb-3"
+          className="w-full rounded-xl border border-cocoa/15 bg-white px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-rose/40"
             value={customerOccasion}
             onChange={(e) => setCustomerOccasion(e.target.value)}
           />
-          <h4 className="text-md font-semibold mt-1 mb-1">Address / Area</h4>
+          <h4 className="block text-sm font-semibold mb-1.5">Address / Area</h4>
         <input
           type="text"
           placeholder="Delivery Address"
-          className="w-full p-2 border rounded mb-3"
+          className="w-full rounded-xl border border-cocoa/15 bg-white px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-rose/40"
           value={customerAddress}
           onChange={(e) => setCustomerAddress(e.target.value)}
         />
-        <h4 className="text-md font-semibold mt-1 mb-1">Notes</h4>
+        <h4 className="block text-sm font-semibold mb-1.5">Notes</h4>
         <input
           type="text"
           placeholder="Urgent!"
-          className="w-full p-2 border rounded mb-3"
+          className="w-full rounded-xl border border-cocoa/15 bg-white px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-rose/40"
           value={customerNotes}
           onChange={(e) => setCustomerNotes(e.target.value)}
         />
@@ -876,7 +878,7 @@ function OrderContent() {
         <button
           onClick={handleSubmit}
             disabled={!selectedProductDetails}
-            className="mt-6 bg-red-500 text-white px-6 py-3 rounded-xl w-full hover:bg-red-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
+            className="btn-primary mt-4 w-full py-4 text-lg"
         >
           Place Order
         </button>
@@ -896,8 +898,8 @@ export default function OrderNow() {
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-semibold text-gray-800">Loading...</h2>
-          <p className="text-gray-600 mt-2">Please wait while we prepare your order form</p>
+          <h2 className="text-2xl font-semibold text-cocoa">Loading...</h2>
+          <p className="text-cocoa-soft mt-2">Please wait while we prepare your order form</p>
         </div>
       </div>
     }>
