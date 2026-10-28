@@ -587,7 +587,8 @@ function OrderContent() {
                             <div className="text-xs text-gray-500">
                               {size === "5-inch" ? "3-4 pax" :
                                size === "6-inch" ? "4-6 pax" :
-                               "8-14 pax"}
+                               size === "8-inch" ? "8-14 pax" :
+                               "15-20 pax"}
                             </div>
                           </button>
                         ))}
