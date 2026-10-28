@@ -116,7 +116,7 @@ function OrderContent() {
   const [customerAddress, setCustomerAddress] = useState("");
   const [customerOccasion, setCustomerOccasion] = useState("");
   const [hasInteracted, setHasInteracted] = useState(false);
-  const [disableAddsOn, setDisableAddsOn] = useState(true);
+  const [disableAddsOn, setDisableAddsOn] = useState(false);
 
   useEffect(() => {
     if (cakeId && productType === "cakes") {
