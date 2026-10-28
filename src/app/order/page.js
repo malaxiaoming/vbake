@@ -289,14 +289,25 @@ function OrderContent() {
     let orderMessage = `Hello, I would like to order:\n\n`;
 
     if (productType === "cakes") {
-      orderMessage += `  - Cake: ${selectedProductDetails.name} (${selectedSize})
-  - Shape: ${selectedShape.charAt(0).toUpperCase() + selectedShape.slice(1)}
-  - Flavor: ${selectedFlavorDetails ? selectedFlavorDetails.name : "Not selected"}
-  - Price: ${selectedProductDetails.sizes[selectedSize]}
-  ${getShapePriceAdjustment() > 0 ? `  - Shape Adjustment: RM ${getShapePriceAdjustment()}` : ""}
-  ${selectedFlavorDetails && selectedFlavorDetails.price !== "RM 0" ? `  - Flavor Adjustment: ${selectedFlavorDetails.price}` : ""}
-  ${selectedAddonsDetails.length > 0 ? "\n  Add-ons:" : ""}
-  ${selectedAddonsDetails.map(addon => `  - ${addon.name}: ${addon.price}`).join("\n")}`;
+      // Only include optional lines when they apply, so the message has no blank gaps
+      const cakeLines = [
+        `  - Cake: ${selectedProductDetails.name} (${selectedSize})`,
+        `  - Shape: ${selectedShape.charAt(0).toUpperCase() + selectedShape.slice(1)}`,
+        `  - Flavor: ${selectedFlavorDetails ? selectedFlavorDetails.name : "Not selected"}`,
+        `  - Price: ${selectedProductDetails.sizes[selectedSize]}`,
+      ];
+      if (getShapePriceAdjustment() > 0) {
+        cakeLines.push(`  - Shape Adjustment: RM ${getShapePriceAdjustment()}`);
+      }
+      if (selectedFlavorDetails && selectedFlavorDetails.price !== "RM 0") {
+        cakeLines.push(`  - Flavor Adjustment: ${selectedFlavorDetails.price}`);
+      }
+      if (selectedAddonsDetails.length > 0) {
+        cakeLines.push("", "  Add-ons:");
+        selectedAddonsDetails.forEach(addon => cakeLines.push(`  - ${addon.name}: ${addon.price}`));
+        cakeLines.push("");
+      }
+      orderMessage += cakeLines.join("\n");
     } else {
       orderMessage += `  - ${productType.charAt(0).toUpperCase() + productType.slice(1)}: ${selectedProductDetails.name}
   - Price: ${selectedProductDetails.price}`;
