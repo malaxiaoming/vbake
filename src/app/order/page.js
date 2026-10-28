@@ -152,11 +152,6 @@ function OrderContent() {
     // Initialize Facebook Pixel
     const pixelId = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID;
     const expectedId = '999278518697592';
-    
-    console.log('Order page - Facebook Pixel ID:', {
-      Expected: expectedId,
-      Current: pixelId
-    });
 
     if (typeof window !== 'undefined' && window.fbq) {
       window.fbq('init', expectedId);
@@ -282,7 +277,8 @@ function OrderContent() {
       });
     }
 
-    const formattedDate = date.toISOString().split("T")[0];
+    // Format in local time; toISOString() converts to UTC and shifts Malaysian dates back a day
+    const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
     const selectedAddonsDetails = getSelectedAddonsDetails();
     const selectedFlavorDetails = selectedFlavor ? getFlavorById(selectedFlavor) : null;
     
@@ -886,7 +882,7 @@ function OrderContent() {
         </button>
         <div>
           <h4 className="text-sm mt-1 mb-1">
-            Payment should only made to Vbake Baker
+            Payments should only be made to VBake Baker
           </h4>
         </div>
       </div>

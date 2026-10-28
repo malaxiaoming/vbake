@@ -8,8 +8,16 @@ import { Suspense } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "VBake - Custom Cakes & Gifts",
-  description: "Order custom cakes, flowers, and gifts for all occasions. Free delivery in Klang Valley.",
+  title: {
+    default: "VBake.KL - Custom Cakes in Kuala Lumpur",
+    template: "%s | VBake.KL",
+  },
+  description: "Custom cakes for birthdays, weddings and celebrations in Kuala Lumpur. Signature Coriander, Flaming and Mahjong cakes. Order easily via WhatsApp.",
+  openGraph: {
+    siteName: "VBake.KL",
+    locale: "en_MY",
+    type: "website",
+  },
   icons: {
     icon: [
       {

@@ -142,23 +142,6 @@ export default function Home() {
         </p>
       </motion.div>
 
-      {/* Testimonials */}
-      <div className="py-16 bg-gray-100">
-        <h2 className="text-center text-3xl font-semibold">
-          What Our Customers Say
-        </h2>
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          className="max-w-4xl mx-auto mt-6"
-        >
-          <p className="text-center text-lg italic">
-            &quot;Best cake shop in Klang Valley! The surprise gift delivery was
-            perfect!&quot; – Sarah L.
-          </p>
-        </motion.div>
-      </div>
 
       {/* Contact Section */}
       <motion.div
