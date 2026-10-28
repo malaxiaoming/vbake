@@ -74,7 +74,7 @@ export default function Cakes() {
         {visibleCakes.map((cake, index) => (
           <Link
             key={cake.id}
-            href={`/order?cakeId=${cake.id}`}
+            href={`/cakes/${cake.id}`}
             onClick={() => handleCakeClick(cake)}
             className="card group flex flex-col overflow-hidden transition-transform hover:-translate-y-1"
           >
@@ -96,7 +96,7 @@ export default function Cakes() {
                   from <span className="font-semibold text-rose">{getStartingPrice(cake)}</span>
                 </p>
                 <span className="hidden items-center gap-1 text-sm font-semibold text-rose sm:inline-flex">
-                  Order <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                  View <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
                 </span>
               </div>
             </div>

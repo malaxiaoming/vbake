@@ -129,7 +129,7 @@
   --color-cocoa: #4a2e22;
   --color-cocoa-soft: #7a5a4b;
   --color-sage: #dfe8da;
-  --color-sage-deep: #5f7a58;
+  --color-sage-deep: #4d6847;
 }
 
 @layer base {
@@ -224,6 +224,7 @@
 
 .custom-calendar .react-calendar__tile--active {
   background: #eebcb6;
+  color: #4a2e22 !important;
 }
 
 .custom-calendar .react-calendar__tile--hasActive {
