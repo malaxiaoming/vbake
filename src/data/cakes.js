@@ -6,7 +6,7 @@ export const cakes = [
     description: "A unique and refreshing cake featuring the distinctive taste of coriander, perfect for those who love bold and innovative flavors.",
     occasions: ["Birthday", "Surprise", "Company Anniversary"],
     sizes: {
-      "5-inch": "RM 120",
+      "5-inch": "RM 130",
       "6-inch": "RM 140",
       "8-inch": "RM 180",
       "10-inch": "RM 250"
@@ -20,7 +20,7 @@ export const cakes = [
     description: "Customize your cake with edible printed images, perfect for personal photos, logos, or special messages. High-quality printing that&apos;s completely safe to eat.",
     occasions: ["Birthday", "Weddings", "Wedding Anniversary", "Company Anniversary"],
     sizes: {
-      "5-inch": "RM 120",
+      "5-inch": "RM 130",
       "6-inch": "RM 140",
       "8-inch": "RM 180",
       "10-inch": "RM 250"
@@ -45,7 +45,7 @@ export const cakes = [
     description: "Artistically decorated with hand-drawn designs, each cake is a unique piece of edible art. Perfect for those seeking a personal touch.",
     occasions: ["Birthday", "Weddings", "Wedding Anniversary", "Gender Reveal"],
     sizes: {
-      "5-inch": "RM 120",
+      "5-inch": "RM 130",
       "6-inch": "RM 140",
       "8-inch": "RM 180",
       "10-inch": "RM 250"
@@ -112,7 +112,7 @@ export const cakes = [
     description: "Elegant cakes featuring beautiful calligraphy designs. Perfect for weddings and formal celebrations where style and sophistication matter.",
     occasions: ["Birthday", "Weddings", "Wedding Anniversary"],
     sizes: {
-      "5-inch": "RM 120",
+      "5-inch": "RM 130",
       "6-inch": "RM 140",
       "8-inch": "RM 180",
       "10-inch": "RM 250"
