@@ -12,6 +12,7 @@ export const cakes = [
       "10-inch": "RM 250"
     },
     defaultSize: "6-inch",
+    fixedFlavor: "coriander",
   },
   {
     id: "edible-printing",
@@ -104,6 +105,7 @@ export const cakes = [
       "6-inch": "RM 180"
     },
     defaultSize: "6-inch",
+    fixedFlavor: "original",
   },
   {
     id: "calligraphy",

@@ -151,6 +151,16 @@ export const flavors = {
       description: "Chocolate cake with cherry filling and whipped cream",
       bookingRequirement: "5 days advance booking"
     }
+  ],
+  // Only offered on specific cakes via `fixedFlavor` in cakes.js; not shown in the flavor dropdown
+  special: [
+    {
+      id: "coriander",
+      name: "Coriander Flavor",
+      price: "RM 0",
+      description: "Signature coriander flavor",
+      bookingRequirement: null
+    }
   ]
 };
 
