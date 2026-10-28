@@ -124,16 +124,10 @@ function OrderContent() {
       if (cake) {
         setSelectedProduct(cake.name);
         setSelectedSize(cake.defaultSize);
-        if (cake.name === "Coriander Cake") {
-          setSelectedFlavor("original");
-        }
       }
     } else if (productType === "cakes" && cakes.length > 0) {
       setSelectedProduct(cakes[0].name);
       setSelectedSize(cakes[0].defaultSize);
-      if (cakes[0].name === "Coriander Cake") {
-        setSelectedFlavor("original");
-      }
     } else if (productType === "gifts" && gifts.length > 0) {
       setSelectedProduct(gifts[0].name);
     } else if (productType === "flowers" && flowers.length > 0) {
@@ -143,10 +137,14 @@ function OrderContent() {
     }
   }, [cakeId, productType]);
 
-  // Add new useEffect to handle Coriander Cake selection
+  // Lock the flavor for cakes that come in one flavor only (e.g. Coriander, Baka)
   useEffect(() => {
-    if (selectedProduct === "Coriander Cake") {
-      setSelectedFlavor("original");
+    const cake = cakes.find(cake => cake.name === selectedProduct);
+    if (cake?.fixedFlavor) {
+      setSelectedFlavor(cake.fixedFlavor);
+    } else {
+      // Clear a cake-specific flavor (e.g. Coriander) when switching to another cake
+      setSelectedFlavor(prev => flavors.special.some(flavor => flavor.id === prev) ? "" : prev);
     }
   }, [selectedProduct]);
 
@@ -196,6 +194,7 @@ function OrderContent() {
   };
 
   const selectedProductDetails = getSelectedProductDetails();
+  const fixedFlavor = productType === "cakes" ? selectedProductDetails?.fixedFlavor : null;
 
   const toggleAddon = (addonId) => {
     setSelectedAddons(prev => 
@@ -455,10 +454,14 @@ function OrderContent() {
                           value={selectedFlavor}
                           onChange={(e) => setSelectedFlavor(e.target.value)}
                           className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 ${
-                            selectedProduct === "Coriander Cake" ? "bg-gray-100 cursor-not-allowed" : ""
+                            fixedFlavor ? "bg-gray-100 cursor-not-allowed" : ""
                           }`}
-                          disabled={selectedProduct === "Coriander Cake"}
+                          disabled={!!fixedFlavor}
                         >
+                          {fixedFlavor ? (
+                            <option value={fixedFlavor}>{getFlavorById(fixedFlavor).name}</option>
+                          ) : (
+                          <>
                           <option value="">Select a flavor</option>
                           <optgroup label="Standard Flavors">
                             {flavors.standard.map((flavor) => (
@@ -481,10 +484,12 @@ function OrderContent() {
                               </option>
                             ))}
                           </optgroup>
+                          </>
+                          )}
                         </select>
-                        {selectedProduct === "Coriander Cake" && (
+                        {fixedFlavor && (
                           <p className="mt-2 text-sm text-gray-500">
-                            Flavor selection is not available for Coriander Cake
+                            {selectedProduct} is only available in {getFlavorById(fixedFlavor).name}
                           </p>
                         )}
                         {selectedFlavor && (

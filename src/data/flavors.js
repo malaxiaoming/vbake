@@ -50,13 +50,6 @@ export const flavors = {
       bookingRequirement: null
     },
     {
-      id: "pandan-coconut",
-      name: "Pandan-Coconut",
-      price: "RM 0",
-      description: "Traditional pandan flavor with fresh longan fruits",
-      bookingRequirement: null
-    },
-    {
       id: "pandan-longan",
       name: "Pandan-Longan",
       price: "RM 0",
@@ -152,25 +145,21 @@ export const flavors = {
       bookingRequirement: "5 days advance booking"
     },
     {
-      id: "opera",
-      name: "Opera",
-      price: "RM 40",
-      description: "Layers of almond sponge, coffee buttercream, and chocolate ganache",
-      bookingRequirement: "5 days advance booking"
-    },
-    {
       id: "black-forest",
       name: "Black Forest (contain alcohol)",
       price: "RM 40",
       description: "Chocolate cake with cherry filling and whipped cream",
       bookingRequirement: "5 days advance booking"
-    },
+    }
+  ],
+  // Only offered on specific cakes via `fixedFlavor` in cakes.js; not shown in the flavor dropdown
+  special: [
     {
-      id: "salted-caramel",
-      name: "Salted Caramel",
-      price: "RM 40",
-      description: "Caramel cake with salted caramel filling",
-      bookingRequirement: "5 days advance booking"
+      id: "coriander",
+      name: "Coriander Flavor",
+      price: "RM 0",
+      description: "Signature coriander flavor",
+      bookingRequirement: null
     }
   ]
 };
