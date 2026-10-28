@@ -34,7 +34,7 @@ export const cakes = [
     description: "A dramatic and eye-catching cake featuring a stunning flaming effect. Perfect for making a grand entrance at any celebration.",
     occasions: ["Birthday", "Surprise", "Wedding Anniversary"],
     sizes: {
-      "6-inch": "RM 140"
+      "6-inch": "RM 170"
     },
     defaultSize: "6-inch",
   },
@@ -101,7 +101,7 @@ export const cakes = [
     description: "A fun and playful cake perfect for casual celebrations. Great for friends and family gatherings with a lighthearted atmosphere.",
     occasions: ["Birthday", "Surprise", "Company Anniversary"],
     sizes: {
-      "6-inch": "RM 140"
+      "6-inch": "RM 180"
     },
     defaultSize: "6-inch",
   },
