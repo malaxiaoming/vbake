@@ -8,7 +8,8 @@ export const cakes = [
     sizes: {
       "5-inch": "RM 120",
       "6-inch": "RM 140",
-      "8-inch": "RM 180"
+      "8-inch": "RM 180",
+      "10-inch": "RM 250"
     },
     defaultSize: "6-inch",
   },
@@ -21,7 +22,8 @@ export const cakes = [
     sizes: {
       "5-inch": "RM 120",
       "6-inch": "RM 140",
-      "8-inch": "RM 180"
+      "8-inch": "RM 180",
+      "10-inch": "RM 250"
     },
     defaultSize: "6-inch",
   },
@@ -32,9 +34,7 @@ export const cakes = [
     description: "A dramatic and eye-catching cake featuring a stunning flaming effect. Perfect for making a grand entrance at any celebration.",
     occasions: ["Birthday", "Surprise", "Wedding Anniversary"],
     sizes: {
-      "5-inch": "RM 120",
-      "6-inch": "RM 140",
-      "8-inch": "RM 180"
+      "6-inch": "RM 140"
     },
     defaultSize: "6-inch",
   },
@@ -47,7 +47,8 @@ export const cakes = [
     sizes: {
       "5-inch": "RM 120",
       "6-inch": "RM 140",
-      "8-inch": "RM 180"
+      "8-inch": "RM 180",
+      "10-inch": "RM 250"
     },
     defaultSize: "6-inch",
   },
@@ -60,7 +61,8 @@ export const cakes = [
     sizes: {
       "5-inch": "RM 120",
       "6-inch": "RM 140",
-      "8-inch": "RM 180"
+      "8-inch": "RM 180",
+      "10-inch": "RM 250"
     },
     defaultSize: "6-inch",
   },
@@ -73,7 +75,8 @@ export const cakes = [
     sizes: {
       "5-inch": "RM 120",
       "6-inch": "RM 140",
-      "8-inch": "RM 180"
+      "8-inch": "RM 180",
+      "10-inch": "RM 250"
     },
     defaultSize: "6-inch",
   },
@@ -86,7 +89,8 @@ export const cakes = [
     sizes: {
       "5-inch": "RM 120",
       "6-inch": "RM 140",
-      "8-inch": "RM 180"
+      "8-inch": "RM 180",
+      "10-inch": "RM 250"
     },
     defaultSize: "6-inch",
   },
@@ -97,9 +101,7 @@ export const cakes = [
     description: "A fun and playful cake perfect for casual celebrations. Great for friends and family gatherings with a lighthearted atmosphere.",
     occasions: ["Birthday", "Surprise", "Company Anniversary"],
     sizes: {
-      "5-inch": "RM 120",
-      "6-inch": "RM 140",
-      "8-inch": "RM 180"
+      "6-inch": "RM 140"
     },
     defaultSize: "6-inch",
   },
@@ -112,7 +114,8 @@ export const cakes = [
     sizes: {
       "5-inch": "RM 120",
       "6-inch": "RM 140",
-      "8-inch": "RM 180"
+      "8-inch": "RM 180",
+      "10-inch": "RM 250"
     },
     defaultSize: "6-inch",
   },
@@ -125,7 +128,8 @@ export const cakes = [
     sizes: {
       "5-inch": "RM 120",
       "6-inch": "RM 140",
-      "8-inch": "RM 180"
+      "8-inch": "RM 180",
+      "10-inch": "RM 250"
     },
     defaultSize: "6-inch",
   },
