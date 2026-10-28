@@ -59,10 +59,10 @@ export const cakes = [
     description: "Elegant cakes adorned with beautiful toppers, adding a special touch to your celebration. Choose from various topper designs to match your theme.",
     occasions: ["Birthday", "Weddings", "Wedding Anniversary", "Gender Reveal"],
     sizes: {
-      "5-inch": "RM 120",
-      "6-inch": "RM 140",
-      "8-inch": "RM 180",
-      "10-inch": "RM 250"
+      "5-inch": "RM 150",
+      "6-inch": "RM 160",
+      "8-inch": "RM 200",
+      "10-inch": "RM 270"
     },
     defaultSize: "6-inch",
   },
@@ -73,10 +73,10 @@ export const cakes = [
     description: "A heavenly design featuring delicate angelic elements, perfect for weddings and romantic celebrations. Elegant and sophisticated.",
     occasions: ["Birthday", "Weddings", "Wedding Anniversary"],
     sizes: {
-      "5-inch": "RM 120",
-      "6-inch": "RM 140",
-      "8-inch": "RM 180",
-      "10-inch": "RM 250"
+      "5-inch": "RM 150",
+      "6-inch": "RM 160",
+      "8-inch": "RM 200",
+      "10-inch": "RM 270"
     },
     defaultSize: "6-inch",
   },
@@ -87,10 +87,10 @@ export const cakes = [
     description: "Sparkling and luxurious, this cake features crystal-like decorations that catch the light beautifully. Perfect for elegant celebrations.",
     occasions: ["Birthday", "Weddings", "Wedding Anniversary"],
     sizes: {
-      "5-inch": "RM 120",
-      "6-inch": "RM 140",
-      "8-inch": "RM 180",
-      "10-inch": "RM 250"
+      "5-inch": "RM 150",
+      "6-inch": "RM 160",
+      "8-inch": "RM 200",
+      "10-inch": "RM 270"
     },
     defaultSize: "6-inch",
   },
@@ -126,10 +126,10 @@ export const cakes = [
     description: "A unique cake designed for mahjong enthusiasts. Perfect for game nights and gatherings with friends who love this classic game.",
     occasions: ["Birthday", "Surprise", "Company Anniversary"],
     sizes: {
-      "5-inch": "RM 120",
-      "6-inch": "RM 140",
-      "8-inch": "RM 180",
-      "10-inch": "RM 250"
+      "5-inch": "RM 150",
+      "6-inch": "RM 160",
+      "8-inch": "RM 200",
+      "10-inch": "RM 270"
     },
     defaultSize: "6-inch",
   },
