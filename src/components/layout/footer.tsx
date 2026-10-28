@@ -103,7 +103,7 @@ export default function Footer() {
                 <Clock size={18} className="mt-0.5 shrink-0" />
                 <div>
                   <p>Mon - Sun: {contactInfo.businessHours.weekdays}</p>
-                  <p className="text-sm text-cream/50">{contactInfo.businessHours.note}</p>
+                  <p className="text-sm text-cream/70">{contactInfo.businessHours.note}</p>
                 </div>
               </li>
             </ul>
@@ -111,7 +111,7 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="mt-10 border-t border-cream/10 pt-6 text-center text-sm text-cream/50">
+        <div className="mt-10 border-t border-cream/10 pt-6 text-center text-sm text-cream/70">
           <p>
             &copy; {new Date().getFullYear()} VBakeBaker (SSM: {contactInfo.ssm}). All rights reserved.
           </p>

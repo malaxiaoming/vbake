@@ -165,3 +165,11 @@ export const getStartingPrice = (cake) => {
   const prices = Object.values(cake.sizes).map((price) => parseInt(price.replace(/[^0-9]/g, "")));
   return `RM ${Math.min(...prices)}`;
 };
+
+// Approximate number of people each size serves
+export const sizeServings = {
+  "5-inch": "2-4 pax",
+  "6-inch": "4-6 pax",
+  "8-inch": "8-14 pax",
+  "10-inch": "15-25 pax",
+};

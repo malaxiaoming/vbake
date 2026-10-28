@@ -4,12 +4,14 @@ import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 import FacebookPixel from "@/components/FacebookPixel";
 import WhatsAppButton from "@/components/layout/whatsapp-button";
+import { siteUrl, bakeryJsonLd } from "@/lib/site";
 import { Suspense } from "react";
 
 const heading = Fraunces({ subsets: ["latin"], variable: "--font-heading", weight: ["500", "600", "700"] });
 const body = DM_Sans({ subsets: ["latin"], variable: "--font-body" });
 
 export const metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: "VBake.KL - Custom Cakes in Kuala Lumpur",
     template: "%s | VBake.KL",
@@ -35,6 +37,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         <meta name="facebook-domain-verification" content="ctw4i2zalbteixmeo6z9qqauaqyzz0" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(bakeryJsonLd) }}
+        />
       </head>
       <body className={`${heading.variable} ${body.variable}`}>
         <Suspense>
