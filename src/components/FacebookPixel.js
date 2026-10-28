@@ -8,14 +8,6 @@ export default function FacebookPixel() {
   const expectedId = '999278518697592';
 
   useEffect(() => {
-    console.log('Environment variables:', {
-      NEXT_PUBLIC_FACEBOOK_PIXEL_ID: process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID,
-      FACEBOOK_PIXEL_ID: process.env.FACEBOOK_PIXEL_ID,
-      NODE_ENV: process.env.NODE_ENV,
-      Expected: expectedId,
-      Current: pixelId
-    });
-
     if (!pixelId) {
       console.warn('Facebook Pixel ID is not configured');
       return;
@@ -39,7 +31,6 @@ export default function FacebookPixel() {
     'https://connect.facebook.net/en_US/fbevents.js');
     
     // Initialize pixel with the expected ID
-    console.log('Initializing Facebook Pixel with ID:', expectedId);
     fbq('init', expectedId);
     fbq('track', 'PageView');
   }, [pixelId]); // Add pixelId to dependency array
