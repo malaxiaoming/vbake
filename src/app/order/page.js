@@ -585,8 +585,7 @@ function OrderContent() {
                             <div className="font-medium">{size}</div>
                             <div className="text-sm">{price}</div>
                             <div className="text-xs text-gray-500">
-                              {size === "4-inch" ? "1-2 pax" :
-                               size === "5-inch" ? "3-4 pax" :
+                              {size === "5-inch" ? "3-4 pax" :
                                size === "6-inch" ? "4-6 pax" :
                                "8-14 pax"}
                             </div>
