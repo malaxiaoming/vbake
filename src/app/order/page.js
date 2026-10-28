@@ -10,7 +10,6 @@ import { flowers } from "@/data/flowers";
 import { catering } from "@/data/catering";
 import { addons } from "@/data/addons"; // Import add-ons
 import { flavors, getFlavorById } from "@/data/flavors";
-import { contactInfo } from "@/data/contact";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { ReactCompareSlider, ReactCompareSliderImage } from 'react-compare-slider';
@@ -113,6 +112,7 @@ function OrderContent() {
   const [selectedFlavor, setSelectedFlavor] = useState("");
   const [selectedAddons, setSelectedAddons] = useState([]);
   const [customerNotes, setCustomerNotes] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
   const [customerAddress, setCustomerAddress] = useState("");
   const [customerOccasion, setCustomerOccasion] = useState("");
   const [hasInteracted, setHasInteracted] = useState(false);
@@ -309,7 +309,8 @@ function OrderContent() {
 
     orderMessage += `\n  - Total Amount: RM ${calculateTotal()}
   - Delivery Date: ${formattedDate}
-  - Time: 6 PM
+  - Time: 12 PM - 3 PM
+  - Contact Number: ${customerPhone ? customerPhone : "Not mentioned"}
   - Occasion: ${customerOccasion ? customerOccasion : "Not mentioned"}
   - Address: ${customerAddress ? customerAddress : "Not mentioned"}
   - Notes: ${customerNotes ? customerNotes : "Not mentioned"}`;
@@ -832,6 +833,14 @@ function OrderContent() {
         {/* Order Details Section */}
         <div>
           <h2 className="text-2xl font-semibold mb-4">Order Details</h2>
+          <h4 className="text-md font-semibold mt-1 mb-1">Contact Number</h4>
+          <input
+            type="tel"
+            placeholder="e.g., 012-345 6789"
+            className="w-full p-2 border rounded mb-3"
+            value={customerPhone}
+            onChange={(e) => setCustomerPhone(e.target.value)}
+          />
           <h4 className="text-md font-semibold mt-1 mb-1">Occasion</h4>
           <input
           type="text"
@@ -850,7 +859,7 @@ function OrderContent() {
         />
         <h4 className="text-md font-semibold mt-1 mb-1">Notes</h4>
         <input
-          type="tel"
+          type="text"
           placeholder="Urgent!"
           className="w-full p-2 border rounded mb-3"
           value={customerNotes}
@@ -866,7 +875,7 @@ function OrderContent() {
         </button>
         <div>
           <h4 className="text-sm mt-1 mb-1">
-            Payment should only made to Vbake or TnG {contactInfo.phone.number}
+            Payment should only made to Vbake Baker
           </h4>
         </div>
       </div>
