@@ -2,44 +2,65 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Facebook, Instagram, Mail, Phone, MapPin, Clock } from "lucide-react";
 import { contactInfo } from "@/data/contact";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <footer className="bg-cocoa text-cream">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
           {/* About Section */}
           <div>
-            <h3 className="text-xl font-bold mb-4">VBake</h3>
-            <p className="text-gray-400">
-              Creating sweet memories with our custom cakes and bakery delights.
-              Perfect for all your special occasions.
+            <div className="mb-4 flex items-center gap-3">
+              <span className="rounded-full bg-cream p-1">
+                <Image src="/images/logos/vbakelogo.png" alt="" width={40} height={40} className="h-10 w-10" />
+              </span>
+              <h3 className="text-xl font-semibold">VBake.KL</h3>
+            </div>
+            <p className="text-cream/70">
+              A home bakery in Sri Petaling making custom cakes for birthdays, weddings and every
+              celebration in between.
             </p>
+            <div className="mt-5 flex gap-3">
+              <a
+                href="https://facebook.com/VBake.KL"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="VBake on Facebook"
+                className="rounded-full bg-cream/10 p-2 transition-colors hover:bg-cream/20"
+              >
+                <Facebook size={20} />
+              </a>
+              <a
+                href="https://instagram.com/vbake.kl"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="VBake on Instagram"
+                className="rounded-full bg-cream/10 p-2 transition-colors hover:bg-cream/20"
+              >
+                <Instagram size={20} />
+              </a>
+            </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-xl font-bold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
+            <h3 className="mb-4 text-lg font-semibold">Explore</h3>
+            <ul className="space-y-2 text-cream/70">
               <li>
-                <Link href="/" className="text-gray-400 hover:text-white transition-colors">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link href="/cakes" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="/cakes" className="transition-colors hover:text-cream">
                   Our Cakes
                 </Link>
               </li>
               <li>
-                <Link href="/order" className="text-gray-400 hover:text-white transition-colors">
-                  Custom Order
+                <Link href="/order" className="transition-colors hover:text-cream">
+                  Order a Cake
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="/contact" className="transition-colors hover:text-cream">
                   Contact
                 </Link>
               </li>
@@ -48,77 +69,54 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-xl font-bold mb-4">Contact Us</h3>
-            <ul className="space-y-2">
-              <li className="flex items-start space-x-2 text-gray-400">
-                <MapPin size={20} className="mt-1" />
-                <a 
+            <h3 className="mb-4 text-lg font-semibold">Visit &amp; Contact</h3>
+            <ul className="space-y-3 text-cream/70">
+              <li className="flex items-start gap-3">
+                <MapPin size={18} className="mt-0.5 shrink-0" />
+                <a
                   href={contactInfo.location.googleMapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white transition-colors"
+                  className="transition-colors hover:text-cream"
                 >
                   {contactInfo.location.address}
                 </a>
               </li>
-              <li className="flex items-center space-x-2 text-gray-400">
-                <Phone size={20} />
-                <a 
+              <li className="flex items-center gap-3">
+                <Phone size={18} className="shrink-0" />
+                <a
                   href={contactInfo.phone.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white transition-colors"
+                  className="transition-colors hover:text-cream"
                 >
-                  {contactInfo.phone.number}
+                  {contactInfo.phone.number} (WhatsApp)
                 </a>
               </li>
-              <li className="flex items-center space-x-2 text-gray-400">
-                <Mail size={20} />
-                <a 
-                  href={`mailto:${contactInfo.email}`}
-                  className="hover:text-white transition-colors"
-                >
+              <li className="flex items-center gap-3">
+                <Mail size={18} className="shrink-0" />
+                <a href={`mailto:${contactInfo.email}`} className="transition-colors hover:text-cream">
                   {contactInfo.email}
                 </a>
               </li>
-              <li className="flex items-start space-x-2 text-gray-400">
-                <Clock size={20} className="mt-1" />
+              <li className="flex items-start gap-3">
+                <Clock size={18} className="mt-0.5 shrink-0" />
                 <div>
-                  <p>Monday - Sunday: {contactInfo.businessHours.weekdays}</p>
-                  <p className="text-sm text-gray-500 mt-1">{contactInfo.businessHours.note}</p>
+                  <p>Mon - Sun: {contactInfo.businessHours.weekdays}</p>
+                  <p className="text-sm text-cream/50">{contactInfo.businessHours.note}</p>
                 </div>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Social Links */}
-        <div className="mt-8 pt-8 border-t border-gray-800">
-          <div className="flex justify-center space-x-6">
-            <a 
-              href="https://facebook.com/VBake.KL" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              <Facebook size={24} />
-            </a>
-            <a 
-              href="https://instagram.com/vbake.kl" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              <Instagram size={24} />
-            </a>
-          </div>
-        </div>
-
         {/* Copyright */}
-        <div className="mt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} VBakeBaker (SSM: {contactInfo.ssm}). All rights reserved.</p>
+        <div className="mt-10 border-t border-cream/10 pt-6 text-center text-sm text-cream/50">
+          <p>
+            &copy; {new Date().getFullYear()} VBakeBaker (SSM: {contactInfo.ssm}). All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
   );
-} 
+}
