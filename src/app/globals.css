@@ -308,3 +308,8 @@
 .custom-calendar .react-calendar__month-view__weekdays__weekday > abbr {
   text-decoration: none;
 }
+.custom-calendar .react-calendar__tile:disabled {
+  background: #f5eee8;
+  color: #a8958b;
+  cursor: not-allowed;
+}

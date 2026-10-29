@@ -19,9 +19,18 @@ module.exports = defineConfig({
     { name: "mobile", use: { ...devices["Pixel 7"] } },
     { name: "desktop", use: { ...devices["Desktop Chrome"] } },
   ],
-  webServer: {
-    command: `npx next start -p ${PORT}`,
-    url: `http://localhost:${PORT}`,
-    reuseExistingServer: !process.env.CI,
-  },
+  webServer: [
+    {
+      // Fake "Google Sheet" of closed/full delivery dates
+      command: "node tests/e2e/blocked-dates-server.js",
+      url: "http://localhost:3101",
+      reuseExistingServer: !process.env.CI,
+    },
+    {
+      command: `npx next start -p ${PORT}`,
+      url: `http://localhost:${PORT}`,
+      reuseExistingServer: !process.env.CI,
+      env: { BLOCKED_DATES_CSV_URL: "http://localhost:3101" },
+    },
+  ],
 });
