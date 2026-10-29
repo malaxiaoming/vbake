@@ -8,6 +8,14 @@ export const parsePrice = (price) => parseInt(price.replace(/[^0-9]/g, ""), 10) 
 export const formatDate = (date) =>
   `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 
+// Default delivery date: three days from today, or the next day after that which isn't closed or full
+export const getDefaultDate = (blockedDates = {}) => {
+  const date = new Date();
+  date.setDate(date.getDate() + 3);
+  while (blockedDates[formatDate(date)]) date.setDate(date.getDate() + 1);
+  return date;
+};
+
 // Malaysian numbers are 9-11 digits (or up to 13 with the 60 country code)
 export const isValidPhone = (value) => {
   const digits = value.replace(/\D/g, "");
