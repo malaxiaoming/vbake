@@ -17,7 +17,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
-      - run: npm run build
+      # next/font downloads Google Fonts during the build, which occasionally fails on the runner; retry once
+      - run: npm run build || (echo "Build failed, retrying once" && npm run build)
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
       - uses: actions/upload-artifact@v4
