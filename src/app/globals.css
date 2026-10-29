@@ -135,6 +135,10 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    /* Keep focused fields and anchors clear of the sticky navbar */
+    scroll-padding-top: 6rem;
+  }
   body {
     @apply bg-cream text-cocoa font-sans antialiased;
   }
@@ -249,4 +253,58 @@
   .custom-calendar .react-calendar__tile p {
     margin-top: 4px;
   }
+}
+/* Order page delivery calendar (scoped so it wins over react-calendar's own stylesheet, which loads later) */
+.custom-calendar.react-calendar {
+  width: 100%;
+  border: none;
+  font-size: 0.875rem;
+}
+.custom-calendar .react-calendar__tile {
+  padding: 0.25em 0.1em;
+  font-size: 0.875rem;
+  line-height: 1;
+}
+.custom-calendar .react-calendar__month-view__days__day {
+  padding: 0.1em 0;
+}
+.custom-calendar .react-calendar__month-view__days__day > abbr {
+  padding: 0.1em;
+  display: inline-block;
+}
+.custom-calendar .react-calendar__tile--now {
+  background: #fbeee2;
+}
+.custom-calendar .react-calendar__tile--active {
+  background: #eebcb6 !important;
+}
+.custom-calendar .react-calendar__tile--active:enabled:hover,
+.custom-calendar .react-calendar__tile--active:enabled:focus {
+  background: #e3a59e !important;
+}
+.custom-calendar .react-calendar__month-view__days__day--neighboringMonth {
+  color: #8b7468;
+}
+.custom-calendar .react-calendar__month-view__days__day--weekend {
+  color: #b4535e;
+}
+.custom-calendar .react-calendar__navigation {
+  margin-bottom: 0.5em;
+}
+.custom-calendar .react-calendar__navigation button {
+  min-width: 24px;
+  padding: 0.25em;
+}
+.custom-calendar .react-calendar__month-view__weekdays {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.75em;
+  padding: 0.25em 0;
+}
+.custom-calendar .react-calendar__month-view__weekdays__weekday {
+  padding: 0.1em;
+}
+.custom-calendar .react-calendar__month-view__weekdays__weekday > abbr {
+  text-decoration: none;
 }

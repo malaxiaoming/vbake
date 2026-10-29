@@ -9,8 +9,11 @@ async function stubWhatsApp(page) {
   });
 }
 
-// Click Place Order and return the pre-filled WhatsApp message text
+// Click Place Order and return the pre-filled WhatsApp message text.
+// Contact Number is required, so fill a valid one unless the test already did.
 async function placeOrder(page) {
+  const phone = page.getByLabel("Contact Number");
+  if (!(await phone.inputValue())) await phone.fill("012-345 6789");
   await page.getByRole("button", { name: "Place Order" }).click();
   const url = await page.evaluate(() => window.__openedUrl);
   expect(url).toMatch(/^https:\/\/wa\.me\/60149308327\?text=/);

@@ -1,11 +1,15 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
+import { flushPendingPixelEvents } from '@/lib/pixel';
 import Image from 'next/image';
 
 export default function FacebookPixel() {
   const pixelId = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID;
   const expectedId = '999278518697592';
+  const pathname = usePathname();
+  const isFirstPage = useRef(true);
 
   useEffect(() => {
     if (!pixelId) {
@@ -33,7 +37,18 @@ export default function FacebookPixel() {
     // Initialize pixel with the expected ID
     fbq('init', expectedId);
     fbq('track', 'PageView');
+    flushPendingPixelEvents();
   }, [pixelId]); // Add pixelId to dependency array
+
+  // The layout stays mounted between pages, so count a PageView for each later page change
+  // (the first page view is sent above when the pixel loads)
+  useEffect(() => {
+    if (isFirstPage.current) {
+      isFirstPage.current = false;
+      return;
+    }
+    window.fbq?.('track', 'PageView');
+  }, [pathname]);
 
   if (!pixelId) return null;
 

@@ -109,3 +109,54 @@ test("catalogue → cake page → order preselects the cake", async ({ page }) =
   expect(message).toContain("- Cake: Mahjong Cake (6-inch)");
   expect(message).toContain("- Price: RM 160");
 });
+
+test("Contact Number is required before opening WhatsApp", async ({ page }) => {
+  await page.goto("/order?cakeId=crystal");
+  const placeOrderButton = page.getByRole("button", { name: "Place Order" });
+  const phone = page.getByLabel("Contact Number");
+
+  await placeOrderButton.click();
+  await expect(page.getByText("Please enter your contact number")).toBeVisible();
+  await expect(phone).toBeFocused();
+  expect(await page.evaluate(() => window.__openedUrl)).toBeUndefined();
+
+  await phone.fill("123");
+  await placeOrderButton.click();
+  await expect(page.getByText("Please check your contact number")).toBeVisible();
+  expect(await page.evaluate(() => window.__openedUrl)).toBeUndefined();
+
+  await phone.fill("+60 12-345 6789");
+  await expect(page.getByText("Please check your contact number")).toBeHidden();
+  const message = await placeOrder(page);
+  expect(message).toContain("- Contact Number: +60 12-345 6789");
+});
+
+test("tapping a cake photo selects it", async ({ page }) => {
+  await page.goto("/order");
+  await page.getByRole("button", { name: /^Angelic Cake/ }).click();
+  await expect(page.getByRole("button", { name: /^Angelic Cake/ })).toHaveAttribute("aria-pressed", "true");
+  const message = await placeOrder(page);
+  expect(message).toContain("- Cake: Angelic Cake (6-inch)");
+  expect(message).toContain("- Price: RM 160");
+});
+
+test("switching cakes keeps prices and flavours valid", async ({ page }) => {
+  await page.goto("/order?cakeId=crystal");
+  await page.getByRole("button", { name: /^10-inch/ }).click();
+  await flavorSelect(page).selectOption("matcha");
+
+  // Flaming Cake only comes in 6-inch
+  await page.getByRole("button", { name: /^Flaming Cake/ }).click();
+  let message = await placeOrder(page);
+  expect(message).toContain("- Cake: Flaming Cake (6-inch)");
+  expect(message).toContain("- Total Amount: RM 170");
+  expect(message).toContain("- Flavor: Matcha");
+
+  // Coriander locks its flavour; leaving it clears Coriander Flavor
+  await page.getByRole("button", { name: /^Coriander Cake/ }).click();
+  await expect(flavorSelect(page)).toHaveValue("coriander");
+  await page.getByRole("button", { name: /^Mahjong Cake/ }).click();
+  await expect(flavorSelect(page)).toHaveValue("");
+  message = await placeOrder(page);
+  expect(message).toContain("- Flavor: Not selected");
+});
