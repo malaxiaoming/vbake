@@ -3,8 +3,13 @@
 import { useCallback, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-// Items overlap their neighbours by this much (px) so the side items fan out like Cover Flow
-const OVERLAP = 44;
+// Items overlap their neighbours by this much (px) so the side items stack up like Cover Flow
+const OVERLAP = 70;
+// How many items stay visible on each side of the centre
+const VISIBLE_EACH_SIDE = 2;
+// Distance (px) from the centre to the first side item, and between further side items
+const FIRST_SIDE_GAP = 92;
+const STACK_GAP = 34;
 
 // iPod-style "Cover Flow" picker: a horizontal strip that snaps an item to the centre, where it
 // faces the viewer; items to the sides tilt away. Swipe on phones; arrows, clicks on side items
@@ -26,9 +31,18 @@ export default function CoverFlow({ items, selectedIndex, onSelect, renderItem, 
       const offset = (el.offsetLeft + el.offsetWidth / 2 - centre) / (el.offsetWidth - OVERLAP);
       const clamped = Math.max(-1, Math.min(1, offset));
       const distance = Math.abs(clamped);
-      el.style.transform = `rotateY(${-clamped * 50}deg) scale(${1 - distance * 0.25}) translateZ(${-distance * 60}px)`;
+      const beyond = Math.max(0, Math.abs(offset) - 1);
+      // Where the item should appear: the first side item just clear of the centre card, the
+      // rest stacked closely behind it. Shift from its natural (overlapping) layout position.
+      const target = Math.sign(offset) * (distance * FIRST_SIDE_GAP + beyond * STACK_GAP);
+      const shift = target - offset * (el.offsetWidth - OVERLAP);
+      // Side items turn ~70° away and shrink; each item has its own perspective so both sides match
+      el.style.transform = `translateX(${shift}px) perspective(700px) rotateY(${-clamped * 70}deg) scale(${1 - distance * 0.2})`;
       el.style.zIndex = String(100 - Math.round(Math.abs(offset) * 10));
-      el.style.opacity = String(1 - Math.min(Math.abs(offset), 2.5) * 0.25);
+      // Show two items each side; fade out the rest
+      const fade = Math.max(0, Math.min(1, VISIBLE_EACH_SIDE + 1 - Math.abs(offset)));
+      el.style.opacity = String(fade);
+      el.style.pointerEvents = fade < 0.5 ? "none" : "";
     });
   }, []);
 
@@ -107,7 +121,7 @@ export default function CoverFlow({ items, selectedIndex, onSelect, renderItem, 
         role="listbox"
         aria-label={label}
         aria-activedescendant={`${label}-${selectedIndex}`}
-        className="no-scrollbar relative flex overflow-x-auto py-6 outline-none [perspective:900px] focus-visible:ring-2 focus-visible:ring-rose/40"
+        className="no-scrollbar relative flex overflow-x-auto py-6 outline-none focus-visible:ring-2 focus-visible:ring-rose/40"
         // Padding lets the first and last items reach the centre (item is 128px wide)
         style={{ paddingInline: `calc(50% - ${64 - OVERLAP / 2}px)` }}
       >
@@ -121,7 +135,7 @@ export default function CoverFlow({ items, selectedIndex, onSelect, renderItem, 
             aria-label={getLabel(item)}
             onClick={() => go(index)}
             style={{ marginInline: -OVERLAP / 2 }}
-            className="w-32 shrink-0 cursor-pointer transition-[filter] [transform-style:preserve-3d] [will-change:transform]"
+            className="w-32 shrink-0 cursor-pointer [will-change:transform]"
           >
             {renderItem(item, index === selectedIndex)}
           </div>
@@ -133,7 +147,7 @@ export default function CoverFlow({ items, selectedIndex, onSelect, renderItem, 
         onClick={() => go(selectedIndex - 1)}
         disabled={selectedIndex === 0}
         aria-label={`Previous ${label.toLowerCase()}`}
-        className="absolute left-0 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 text-cocoa shadow-md transition-opacity hover:text-rose disabled:opacity-0"
+        className="absolute -left-2 top-1/2 z-[200] -translate-y-1/2 rounded-full bg-white/90 p-1.5 text-cocoa shadow-md transition-opacity hover:text-rose disabled:opacity-0"
       >
         <ChevronLeft size={22} />
       </button>
@@ -142,7 +156,7 @@ export default function CoverFlow({ items, selectedIndex, onSelect, renderItem, 
         onClick={() => go(selectedIndex + 1)}
         disabled={selectedIndex === items.length - 1}
         aria-label={`Next ${label.toLowerCase()}`}
-        className="absolute right-0 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 text-cocoa shadow-md transition-opacity hover:text-rose disabled:opacity-0"
+        className="absolute -right-2 top-1/2 z-[200] -translate-y-1/2 rounded-full bg-white/90 p-1.5 text-cocoa shadow-md transition-opacity hover:text-rose disabled:opacity-0"
       >
         <ChevronRight size={22} />
       </button>

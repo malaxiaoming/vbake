@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { cakeBodies, cakeFillings } from "@/data/cake-builder";
 import { contactInfo } from "@/data/contact";
-import { CakePreview, CakeTile, CrayonDefs } from "./cake-art";
+import { CakePreview, CakeTile, CrayonDefs, LOOKS } from "./cake-art";
 import CoverFlow from "./cover-flow";
 
 const neutralFilling = cakeFillings[0];
@@ -22,14 +22,14 @@ function Step({ number, title, children }) {
   );
 }
 
-function TileCard({ body, filling, title, subtitle, selected }) {
+function TileCard({ body, filling, title, subtitle, selected, look }) {
   return (
     <div
       className={`rounded-2xl border-2 bg-[#fffdf8] p-2 text-center shadow-sm transition-colors ${
         selected ? "border-rose" : "border-cocoa/15"
       }`}
     >
-      <CakeTile body={body} filling={filling} className="mx-auto h-24 w-24" />
+      <CakeTile body={body} filling={filling} look={look} className="mx-auto h-24 w-24" />
       <p className="font-crayon text-lg leading-tight text-cocoa">{title}</p>
       <p className="text-xs text-cocoa-soft">{subtitle}</p>
     </div>
@@ -39,6 +39,9 @@ function TileCard({ body, filling, title, subtitle, selected }) {
 export default function CakeBuilder() {
   const [bodyIndex, setBodyIndex] = useState(0);
   const [fillingIndex, setFillingIndex] = useState(0);
+  // Compare the light texture with a heavier crayon look
+  const [lookName, setLookName] = useState("crayon");
+  const look = LOOKS[lookName];
   const body = cakeBodies[bodyIndex];
   const filling = cakeFillings[fillingIndex];
 
@@ -58,7 +61,25 @@ export default function CakeBuilder() {
 
       {/* Live preview */}
       <div className="mt-6 rounded-[2rem] border-2 border-dashed border-cocoa/20 bg-[#fffaf1] px-2 py-4">
-        <CakePreview body={body} filling={filling} className="mx-auto w-full max-w-xl" />
+        <CakePreview body={body} filling={filling} look={look} className="mx-auto w-full max-w-xl" />
+      </div>
+
+      {/* Drawing style switch (experiment) */}
+      <div className="mt-4 flex items-center justify-center gap-2" role="group" aria-label="Drawing style">
+        <span className="text-sm text-cocoa-soft">Drawing style:</span>
+        {["soft", "crayon"].map((name) => (
+          <button
+            key={name}
+            type="button"
+            onClick={() => setLookName(name)}
+            aria-pressed={lookName === name}
+            className={`rounded-full border-2 px-4 py-1 font-crayon text-lg capitalize transition-colors ${
+              lookName === name ? "border-rose bg-rose text-white" : "border-cocoa/20 bg-white text-cocoa hover:border-rose"
+            }`}
+          >
+            {name}
+          </button>
+        ))}
       </div>
 
       <Step number={1} title="Choose your sponge">
@@ -69,7 +90,7 @@ export default function CakeBuilder() {
           onSelect={setBodyIndex}
           getLabel={(item) => item.name}
           renderItem={(item, selected) => (
-            <TileCard body={item} filling={neutralFilling} title={item.name} subtitle={item.chinese} selected={selected} />
+            <TileCard body={item} filling={neutralFilling} title={item.name} subtitle={item.chinese} selected={selected} look={look} />
           )}
         />
       </Step>
@@ -82,7 +103,7 @@ export default function CakeBuilder() {
           onSelect={setFillingIndex}
           getLabel={(item) => item.name}
           renderItem={(item, selected) => (
-            <TileCard body={body} filling={item} title={item.name} subtitle={item.chinese} selected={selected} />
+            <TileCard body={body} filling={item} title={item.name} subtitle={item.chinese} selected={selected} look={look} />
           )}
         />
       </Step>

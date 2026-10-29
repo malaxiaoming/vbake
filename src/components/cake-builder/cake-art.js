@@ -1,28 +1,42 @@
 // Hand-drawn style cake illustrations, drawn as SVG so every sponge/filling combination is
 // generated from colours instead of separate image files. The "crayon" look comes from SVG
-// filters (wobbly outlines + grainy fill) and a light hatching pattern.
+// filters (wobbly outlines + grainy fill) and a hatching pattern. Two looks can be compared:
+// "soft" (light texture) and "crayon" (heavier wobble, grain, hatching and sketchy double lines).
 
 const INK = "#4a2e22";
+
+export const LOOKS = {
+  soft: { filter: "crayon", filterSm: "crayon-sm", hatch: "crayon-hatch", stroke: 1, sketch: false },
+  crayon: { filter: "crayon-heavy", filterSm: "crayon-heavy-sm", hatch: "crayon-hatch-heavy", stroke: 1.45, sketch: true },
+};
+
+// id, outline wobble, wobble frequency, grain frequency, grain strength (alpha = b - a * noise)
+const FILTERS = [
+  ["crayon", 3, 0.035, 0.85, "-0.9 1.3"],
+  ["crayon-sm", 1.6, 0.035, 0.85, "-0.9 1.3"],
+  ["crayon-heavy", 6, 0.05, 1.1, "-1.6 1.55"],
+  ["crayon-heavy-sm", 3.2, 0.05, 1.1, "-1.6 1.55"],
+];
 
 // Shared filters and patterns; render once per page
 export function CrayonDefs() {
   return (
     <svg width="0" height="0" className="absolute" aria-hidden="true" focusable="false">
       <defs>
-        {[
-          ["crayon", 3],
-          ["crayon-sm", 1.6],
-        ].map(([id, wobble]) => (
+        {FILTERS.map(([id, wobble, warpFrequency, grainFrequency, grainStrength]) => (
           <filter key={id} id={id} x="-5%" y="-5%" width="110%" height="110%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="3" result="warp" />
+            <feTurbulence type="fractalNoise" baseFrequency={warpFrequency} numOctaves="2" seed="3" result="warp" />
             <feDisplacementMap in="SourceGraphic" in2="warp" scale={wobble} xChannelSelector="R" yChannelSelector="G" result="wobbly" />
-            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="1" seed="8" result="grain" />
-            <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.9 1.3" result="grainAlpha" />
+            <feTurbulence type="fractalNoise" baseFrequency={grainFrequency} numOctaves="2" seed="8" result="grain" />
+            <feColorMatrix in="grain" type="matrix" values={`0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 ${grainStrength}`} result="grainAlpha" />
             <feComposite in="wobbly" in2="grainAlpha" operator="in" />
           </filter>
         ))}
         <pattern id="crayon-hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
           <line x1="0" y1="0" x2="0" y2="7" stroke={INK} strokeOpacity="0.1" strokeWidth="2.2" />
+        </pattern>
+        <pattern id="crayon-hatch-heavy" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(32)">
+          <line x1="0" y1="0" x2="0" y2="5" stroke={INK} strokeOpacity="0.2" strokeWidth="2.4" />
         </pattern>
       </defs>
     </svg>
@@ -54,7 +68,13 @@ function bandPath(x1, x2, top, bottom, seed) {
   return `M${points.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(" L")} Z`;
 }
 
-function Sponge({ x1, x2, top, bottom, body, seed }) {
+// A second, slightly offset outline, like a quick pencil sketch over the colouring
+function SketchLine({ d, look, width = 1.4 }) {
+  if (!look.sketch) return null;
+  return <path d={d} fill="none" stroke={INK} strokeOpacity="0.45" strokeWidth={width} transform="translate(1.6 1.2)" />;
+}
+
+function Sponge({ x1, x2, top, bottom, body, seed, look }) {
   const rand = seeded(seed);
   const d = bandPath(x1, x2, top, bottom, seed);
   const holes = Array.from({ length: Math.round(((x2 - x1) * (bottom - top)) / 260) }, () => ({
@@ -64,16 +84,17 @@ function Sponge({ x1, x2, top, bottom, body, seed }) {
   }));
   return (
     <g>
-      <path d={d} fill={body.sponge} stroke={INK} strokeWidth="2.2" strokeLinejoin="round" />
+      <path d={d} fill={body.sponge} stroke={INK} strokeWidth={2.2 * look.stroke} strokeLinejoin="round" />
       {holes.map((hole, i) => (
         <ellipse key={i} cx={hole.cx} cy={hole.cy} rx={hole.r * 1.4} ry={hole.r} fill={body.crumb} opacity="0.55" />
       ))}
-      <path d={d} fill="url(#crayon-hatch)" />
+      <path d={d} fill={`url(#${look.hatch})`} />
+      <SketchLine d={d} look={look} />
     </g>
   );
 }
 
-function Filling({ x1, x2, top, bottom, filling, seed }) {
+function Filling({ x1, x2, top, bottom, filling, seed, look }) {
   const rand = seeded(seed);
   const d = bandPath(x1, x2, top, bottom, seed);
   const bits = filling.bits
@@ -85,48 +106,49 @@ function Filling({ x1, x2, top, bottom, filling, seed }) {
     : [];
   return (
     <g>
-      <path d={d} fill={filling.cream} stroke={INK} strokeWidth="2" strokeLinejoin="round" />
+      <path d={d} fill={filling.cream} stroke={INK} strokeWidth={2 * look.stroke} strokeLinejoin="round" />
       {bits.map((bit, i) => (
-        <circle key={i} cx={bit.cx} cy={bit.cy} r={bit.r} fill={filling.bits} stroke={INK} strokeWidth="0.8" strokeOpacity="0.6" />
+        <circle key={i} cx={bit.cx} cy={bit.cy} r={bit.r} fill={filling.bits} stroke={INK} strokeWidth={0.8 * look.stroke} strokeOpacity="0.6" />
       ))}
+      <SketchLine d={d} look={look} width={1.2} />
     </g>
   );
 }
 
 // Square cross-section tile, like a flavour swatch on a menu
-export function CakeTile({ body, filling, className }) {
+export function CakeTile({ body, filling, look = LOOKS.soft, className }) {
   const x1 = 14;
   const x2 = 106;
   return (
     <svg viewBox="0 0 120 120" className={className} aria-hidden="true">
-      <g filter="url(#crayon-sm)">
-        <Sponge x1={x1} x2={x2} top={18} bottom={40} body={body} seed={11} />
-        <Filling x1={x1} x2={x2} top={40} bottom={50} filling={filling} seed={12} />
-        <Sponge x1={x1} x2={x2} top={50} bottom={72} body={body} seed={13} />
-        <Filling x1={x1} x2={x2} top={72} bottom={82} filling={filling} seed={14} />
-        <Sponge x1={x1} x2={x2} top={82} bottom={102} body={body} seed={15} />
+      <g filter={`url(#${look.filterSm})`}>
+        <Sponge x1={x1} x2={x2} top={18} bottom={40} body={body} seed={11} look={look} />
+        <Filling x1={x1} x2={x2} top={40} bottom={50} filling={filling} seed={12} look={look} />
+        <Sponge x1={x1} x2={x2} top={50} bottom={72} body={body} seed={13} look={look} />
+        <Filling x1={x1} x2={x2} top={72} bottom={82} filling={filling} seed={14} look={look} />
+        <Sponge x1={x1} x2={x2} top={82} bottom={102} body={body} seed={15} look={look} />
       </g>
     </svg>
   );
 }
 
 // Whole cake cut open to show the layers, with handwritten notes pointing at them
-export function CakePreview({ body, filling, className }) {
+export function CakePreview({ body, filling, look = LOOKS.soft, className }) {
   const x1 = 130;
   const x2 = 390;
   const sprinkles = ["#e98b9b", "#f2c14e", "#8fbf9f", "#9db4e0", "#e98b9b", "#f2c14e", "#8fbf9f"];
   return (
     <svg viewBox="0 0 520 380" className={className} role="img" aria-label={`${body.name} sponge with ${filling.name} filling`}>
-      <g filter="url(#crayon)">
+      <g filter={`url(#${look.filter})`}>
         {/* Plate */}
-        <ellipse cx="260" cy="338" rx="190" ry="22" fill="#fffaf3" stroke={INK} strokeWidth="2.5" />
+        <ellipse cx="260" cy="338" rx="190" ry="22" fill="#fffaf3" stroke={INK} strokeWidth={2.5 * look.stroke} />
         <ellipse cx="260" cy="334" rx="150" ry="12" fill="none" stroke={INK} strokeOpacity="0.25" strokeWidth="1.5" />
 
-        <Sponge x1={x1} x2={x2} top={118} bottom={176} body={body} seed={21} />
-        <Filling x1={x1} x2={x2} top={176} bottom={198} filling={filling} seed={22} />
-        <Sponge x1={x1} x2={x2} top={198} bottom={256} body={body} seed={23} />
-        <Filling x1={x1} x2={x2} top={256} bottom={278} filling={filling} seed={24} />
-        <Sponge x1={x1} x2={x2} top={278} bottom={330} body={body} seed={25} />
+        <Sponge x1={x1} x2={x2} top={118} bottom={176} body={body} seed={21} look={look} />
+        <Filling x1={x1} x2={x2} top={176} bottom={198} filling={filling} seed={22} look={look} />
+        <Sponge x1={x1} x2={x2} top={198} bottom={256} body={body} seed={23} look={look} />
+        <Filling x1={x1} x2={x2} top={256} bottom={278} filling={filling} seed={24} look={look} />
+        <Sponge x1={x1} x2={x2} top={278} bottom={330} body={body} seed={25} look={look} />
 
         {/* Cream top with drips and piped dollops */}
         <path
@@ -136,7 +158,7 @@ export function CakePreview({ body, filling, className }) {
               C${x1 + 90},124 ${x1 + 70},144 ${x1 + 52},130 C${x1 + 40},148 ${x1 + 24},146 ${x1 + 20},128 C${x1 + 10},132 ${x1 - 2},132 ${x1 - 4},121 Z`}
           fill="#fffaf0"
           stroke={INK}
-          strokeWidth="2.2"
+          strokeWidth={2.2 * look.stroke}
           strokeLinejoin="round"
         />
         {[150, 205, 260, 315, 370].map((cx) => (
@@ -145,7 +167,7 @@ export function CakePreview({ body, filling, className }) {
               d={`M${cx - 16},98 C${cx - 18},80 ${cx - 4},82 ${cx},70 C${cx + 4},82 ${cx + 18},80 ${cx + 16},98 Z`}
               fill="#fffaf0"
               stroke={INK}
-              strokeWidth="2"
+              strokeWidth={2 * look.stroke}
               strokeLinejoin="round"
             />
             <path d={`M${cx - 8},90 C${cx - 2},86 ${cx + 2},86 ${cx + 8},90`} fill="none" stroke={INK} strokeOpacity="0.35" strokeWidth="1.5" />
