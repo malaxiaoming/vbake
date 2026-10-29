@@ -1,4 +1,4 @@
-// Stand-in for the bakery's published Google Sheet of closed/full dates, used by the e2e tests.
+// Stand-in for the bakery's published Google Sheet of closed/holiday/full dates, used by the e2e tests.
 // Serves dates relative to today (in Malaysia) so the tests never go stale.
 const http = require("http");
 
@@ -18,7 +18,8 @@ http
       "Date,Reason",
       `${iso(malaysiaDate(3))},Full`, // the usual default date, so the form must skip to the next day
       `${iso(malaysiaDate(10))},Full`,
-      `${dayFirst(malaysiaDate(11))},Closed for holiday`, // Malaysian-locale date format
+      `${dayFirst(malaysiaDate(11))},Closed`, // Malaysian-locale date format
+      `${iso(malaysiaDate(13))},Closed for public holiday`, // a holiday label wins over "closed"
       `"${iso(malaysiaDate(12))}","Full, sorry"`, // quoted fields
       "not a date,Full",
       "",

@@ -37,7 +37,13 @@ export default function DeliveryDate({ value, onChange, blockedDates = {} }) {
         tileContent={({ date, view }) => {
           if (view !== "month") return null;
           const blocked = blockedDates[formatDate(date)];
-          if (blocked) return <p className="text-[9px] font-semibold leading-tight text-cocoa-soft sm:text-xs">{blocked}</p>;
+          if (blocked) {
+            return (
+              <p className="whitespace-nowrap text-[8px] font-semibold leading-tight tracking-tight text-cocoa-soft sm:text-xs">
+                {blocked}
+              </p>
+            );
+          }
           return promotions[formatDate(date)] ? (
             <p className="text-[9px] font-semibold leading-tight text-rose sm:text-xs">{promotions[formatDate(date)]}</p>
           ) : null;
@@ -45,7 +51,7 @@ export default function DeliveryDate({ value, onChange, blockedDates = {} }) {
       />
       {hasUpcomingBlockedDates && (
         <p className="mt-3 text-sm text-cocoa-soft">
-          Dates marked Full or Closed can&apos;t be booked online. Need one of them?{" "}
+          Dates marked Full, Closed or Holiday can&apos;t be booked online. Need one of them?{" "}
           <a
             href={contactInfo.phone.whatsappUrl}
             target="_blank"

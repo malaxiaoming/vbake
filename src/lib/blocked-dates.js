@@ -1,5 +1,6 @@
-// Delivery dates the bakery has marked as closed or fully booked, kept in a Google Sheet
-// (File → Share → Publish to web → CSV) with two columns: Date, Reason ("Closed" or "Full").
+// Delivery dates the bakery has marked as closed, on holiday or fully booked, kept in a Google Sheet
+// (File → Share → Publish to web → CSV) with two columns: Date, Reason. The calendar shows "Holiday"
+// if the reason mentions a holiday, "Closed" if it mentions closing, and "Full" otherwise.
 // BLOCKED_DATES_CSV_URL can override the sheet, e.g. for tests.
 const SHEET_CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRTKmTRKgw5769wvkkC-QNy-Buj4q4NOH82v0tNlX2ESvbV-zqcX75p1SQVxFl8ayuAkpH4Wlt3liDq/pub?gid=0&single=true&output=csv";
@@ -67,7 +68,14 @@ function isValidDate(year, month, day) {
   return `${year}-${pad(month)}-${pad(day)}`;
 }
 
-// { "2026-11-20": "Full", "2026-12-25": "Closed", ... }
+// The short label shown on the calendar day
+const reasonLabel = (reason) => {
+  if (/holiday/i.test(reason)) return "Holiday";
+  if (/close/i.test(reason)) return "Closed";
+  return "Full";
+};
+
+// { "2026-11-20": "Full", "2026-12-24": "Closed", "2026-12-25": "Holiday", ... }
 export async function getBlockedDates() {
   const url = csvUrl();
   if (!url) return {};
@@ -77,7 +85,7 @@ export async function getBlockedDates() {
     const blocked = {};
     for (const [dateCell = "", reasonCell = ""] of parseCsv(await response.text())) {
       const date = parseSheetDate(dateCell);
-      if (date) blocked[date] = /close/i.test(reasonCell) ? "Closed" : "Full";
+      if (date) blocked[date] = reasonLabel(reasonCell);
     }
     return blocked;
   } catch (error) {

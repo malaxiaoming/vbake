@@ -184,15 +184,15 @@ const malaysiaDate = (days) => {
   };
 };
 
-test("dates marked Full or Closed in the sheet can't be picked", async ({ page }) => {
+test("dates marked Full, Closed or Holiday in the sheet can't be picked", async ({ page }) => {
   await page.goto("/order");
-  await expect(page.getByText("Dates marked Full or Closed can't be booked online")).toBeVisible();
+  await expect(page.getByText("Dates marked Full, Closed or Holiday can't be booked online")).toBeVisible();
 
   // The usual default (3 days ahead) is full, so the form starts on the next day
   const message = await placeOrder(page);
   expect(message).toContain(`- Delivery Date: ${malaysiaDate(4).iso}`);
 
-  for (const [days, label] of [[3, "Full"], [10, "Full"], [11, "Closed"], [12, "Full"]]) {
+  for (const [days, label] of [[3, "Full"], [10, "Full"], [11, "Closed"], [12, "Full"], [13, "Holiday"]]) {
     const { label: ariaLabel } = malaysiaDate(days);
     const tile = page.locator(`button:has(abbr[aria-label="${ariaLabel}"])`);
     // The date may be in next month's view
