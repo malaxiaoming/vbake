@@ -174,3 +174,33 @@ test("every cake is visible to pick on larger screens", async ({ page, isMobile 
     await expect(button).toBeInViewport({ ratio: 1 });
   }
 });
+
+// Matches tests/e2e/blocked-dates-server.js
+const malaysiaDate = (days) => {
+  const date = new Date(Date.now() + 8 * 60 * 60 * 1000 + days * 24 * 60 * 60 * 1000);
+  return {
+    iso: date.toISOString().slice(0, 10),
+    label: date.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" }),
+  };
+};
+
+test("dates marked Full or Closed in the sheet can't be picked", async ({ page }) => {
+  await page.goto("/order");
+  await expect(page.getByText("Dates marked Full or Closed can't be booked online")).toBeVisible();
+
+  // The usual default (3 days ahead) is full, so the form starts on the next day
+  const message = await placeOrder(page);
+  expect(message).toContain(`- Delivery Date: ${malaysiaDate(4).iso}`);
+
+  for (const [days, label] of [[3, "Full"], [10, "Full"], [11, "Closed"], [12, "Full"]]) {
+    const { label: ariaLabel } = malaysiaDate(days);
+    const tile = page.locator(`button:has(abbr[aria-label="${ariaLabel}"])`);
+    // The date may be in next month's view
+    if (!(await tile.isVisible())) await page.locator(".react-calendar__navigation__next-button").click();
+    await expect(tile).toBeDisabled();
+    await expect(tile).toContainText(label);
+    if (await page.locator(".react-calendar__navigation__prev-button").isEnabled()) {
+      await page.locator(".react-calendar__navigation__prev-button").click();
+    }
+  }
+});

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { cakes } from "@/data/cakes";
 import { flavors } from "@/data/flavors";
 import { contactInfo } from "@/data/contact";
-import { buildOrderMessage, calculateTotal, isValidPhone } from "@/lib/order";
+import { buildOrderMessage, calculateTotal, formatDate, isValidPhone } from "@/lib/order";
 import { trackPixelEvent } from "@/lib/pixel";
 import CakePicker from "@/components/order/cake-picker";
 import FlavorSelect from "@/components/order/flavor-select";
@@ -17,10 +17,11 @@ import CustomerDetails from "@/components/order/customer-details";
 // Switch on once the add-on product photos are ready
 const SHOW_ADDONS = false;
 
-// Default delivery date: three days from today
-const getDefaultDate = () => {
+// Default delivery date: three days from today, or the next day after that which isn't closed or full
+const getDefaultDate = (blockedDates) => {
   const date = new Date();
   date.setDate(date.getDate() + 3);
+  while (blockedDates[formatDate(date)]) date.setDate(date.getDate() + 1);
   return date;
 };
 
@@ -46,13 +47,14 @@ function StepHeading({ number, children }) {
   );
 }
 
-// cakeId comes from the ?cakeId= link, read on the server so the form renders immediately
-export default function OrderForm({ cakeId }) {
+// cakeId comes from the ?cakeId= link, read on the server so the form renders immediately.
+// blockedDates ({ "YYYY-MM-DD": "Closed" | "Full" }) come from the bakery's Google Sheet.
+export default function OrderForm({ cakeId, blockedDates = {} }) {
   const [cake, setCake] = useState(() => cakes.find((c) => c.id === cakeId) || cakes[0]);
   const [size, setSize] = useState(cake.defaultSize);
   const [flavorId, setFlavorId] = useState(cake.fixedFlavor || "");
   const [addonIds, setAddonIds] = useState([]);
-  const [date, setDate] = useState(getDefaultDate);
+  const [date, setDate] = useState(() => getDefaultDate(blockedDates));
   const [customer, setCustomer] = useState({ phone: "", occasion: "", address: "", notes: "" });
   const [phoneError, setPhoneError] = useState("");
   const phoneRef = useRef(null);
@@ -132,7 +134,7 @@ export default function OrderForm({ cakeId }) {
 
         <section className="mb-10">
           <StepHeading number={2}>Choose delivery date</StepHeading>
-          <DeliveryDate value={date} onChange={setDate} />
+          <DeliveryDate value={date} onChange={setDate} blockedDates={blockedDates} />
         </section>
 
         <section>
