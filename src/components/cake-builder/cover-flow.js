@@ -8,8 +8,11 @@ const OVERLAP = 70;
 // How many items stay visible on each side of the centre
 const VISIBLE_EACH_SIDE = 2;
 // Distance (px) from the centre to the first side item, and between further side items
-const FIRST_SIDE_GAP = 92;
-const STACK_GAP = 34;
+const FIRST_SIDE_GAP = 100;
+const STACK_GAP = 36;
+// Tilt (degrees) of the nearest side items and of the items further out
+const NEAR_TILT = 40;
+const FAR_TILT = 70;
 
 // iPod-style "Cover Flow" picker: a horizontal strip that snaps an item to the centre, where it
 // faces the viewer; items to the sides tilt away. Swipe on phones; arrows, clicks on side items
@@ -19,6 +22,13 @@ export default function CoverFlow({ items, selectedIndex, onSelect, renderItem, 
   const itemRefs = useRef([]);
   const frame = useRef(0);
   const settleTimer = useRef(0);
+  // Item an arrow/tap/key asked for while the strip is still gliding to it; null after a swipe
+  const pendingTarget = useRef(null);
+  // Latest selection and callback, for timers that fire after a later render
+  const latest = useRef({ selectedIndex, onSelect });
+  useEffect(() => {
+    latest.current = { selectedIndex, onSelect };
+  });
 
   // Tilt and shrink each item by its distance from the centre of the strip
   const updateTransforms = useCallback(() => {
@@ -36,8 +46,10 @@ export default function CoverFlow({ items, selectedIndex, onSelect, renderItem, 
       // rest stacked closely behind it. Shift from its natural (overlapping) layout position.
       const target = Math.sign(offset) * (distance * FIRST_SIDE_GAP + beyond * STACK_GAP);
       const shift = target - offset * (el.offsetWidth - OVERLAP);
-      // Side items turn ~70° away and shrink; each item has its own perspective so both sides match
-      el.style.transform = `translateX(${shift}px) perspective(700px) rotateY(${-clamped * 70}deg) scale(${1 - distance * 0.2})`;
+      // The nearest side items turn gently (~40°), the ones further out turn ~70°; each item has
+      // its own perspective so both sides match
+      const angle = distance * NEAR_TILT + Math.min(beyond, 1) * (FAR_TILT - NEAR_TILT);
+      el.style.transform = `translateX(${shift}px) perspective(700px) rotateY(${-Math.sign(offset) * angle}deg) scale(${1 - distance * 0.2})`;
       el.style.zIndex = String(100 - Math.round(Math.abs(offset) * 10));
       // Show two items each side; fade out the rest
       const fade = Math.max(0, Math.min(1, VISIBLE_EACH_SIDE + 1 - Math.abs(offset)));
@@ -82,6 +94,15 @@ export default function CoverFlow({ items, selectedIndex, onSelect, renderItem, 
     return () => window.removeEventListener("resize", onResize);
   }, [selectedIndex, scrollToIndex, updateTransforms]);
 
+  // Don't let a pending timer act on a strip that has gone (e.g. after switching cake tiers)
+  useEffect(
+    () => () => {
+      clearTimeout(settleTimer.current);
+      cancelAnimationFrame(frame.current);
+    },
+    []
+  );
+
   const handleScroll = () => {
     cancelAnimationFrame(frame.current);
     frame.current = requestAnimationFrame(updateTransforms);
@@ -90,13 +111,26 @@ export default function CoverFlow({ items, selectedIndex, onSelect, renderItem, 
     clearTimeout(settleTimer.current);
     settleTimer.current = setTimeout(() => {
       const index = indexAtCentre();
+      // An arrow/tap already chose the item: keep gliding to it rather than selecting whatever
+      // is in the centre if the animation paused (slow phones)
+      if (pendingTarget.current !== null) {
+        if (index === pendingTarget.current) pendingTarget.current = null;
+        else scrollToIndex(pendingTarget.current);
+        return;
+      }
       scrollToIndex(index);
-      if (index !== selectedIndex) onSelect(index);
+      if (index !== latest.current.selectedIndex) latest.current.onSelect(index);
     }, 120);
+  };
+
+  // A hand swipe or wheel takes over from any arrow/tap target
+  const cancelPendingTarget = () => {
+    pendingTarget.current = null;
   };
 
   const go = (index) => {
     const next = Math.max(0, Math.min(items.length - 1, index));
+    pendingTarget.current = next;
     scrollToIndex(next);
     onSelect(next);
   };
@@ -117,13 +151,17 @@ export default function CoverFlow({ items, selectedIndex, onSelect, renderItem, 
         ref={stripRef}
         onScroll={handleScroll}
         onKeyDown={handleKeyDown}
+        onTouchStart={cancelPendingTarget}
+        onPointerDown={cancelPendingTarget}
+        onWheel={cancelPendingTarget}
         tabIndex={0}
         role="listbox"
         aria-label={label}
         aria-activedescendant={`${label}-${selectedIndex}`}
         className="no-scrollbar relative flex overflow-x-auto py-6 outline-none focus-visible:ring-2 focus-visible:ring-rose/40"
-        // Padding lets the first and last items reach the centre (item is 128px wide)
-        style={{ paddingInline: `calc(50% - ${64 - OVERLAP / 2}px)` }}
+        // Padding lets the first and last items reach the centre (item is 128px wide). The scroll
+        // margin keeps the strip clear of a sticky preview above it when focused or scrolled to.
+        style={{ paddingInline: `calc(50% - ${64 - OVERLAP / 2}px)`, scrollMarginTop: "calc(28vh + 9rem)" }}
       >
         {items.map((item, index) => (
           <div

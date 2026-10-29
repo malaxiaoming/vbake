@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { cakes } from "@/data/cakes";
 import { flavors } from "@/data/flavors";
 import { contactInfo } from "@/data/contact";
-import { buildOrderMessage, calculateTotal, formatDate, isValidPhone } from "@/lib/order";
+import { buildOrderMessage, calculateTotal, getDefaultDate, isValidPhone } from "@/lib/order";
 import { trackPixelEvent } from "@/lib/pixel";
 import CakePicker from "@/components/order/cake-picker";
 import FlavorSelect from "@/components/order/flavor-select";
@@ -16,14 +16,6 @@ import CustomerDetails from "@/components/order/customer-details";
 
 // Switch on once the add-on product photos are ready
 const SHOW_ADDONS = false;
-
-// Default delivery date: three days from today, or the next day after that which isn't closed or full
-const getDefaultDate = (blockedDates) => {
-  const date = new Date();
-  date.setDate(date.getDate() + 3);
-  while (blockedDates[formatDate(date)]) date.setDate(date.getDate() + 1);
-  return date;
-};
 
 const trackPixel = (event, cake, value) => {
   trackPixelEvent(event, {

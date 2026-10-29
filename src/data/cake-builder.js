@@ -21,3 +21,18 @@ export const cakeFillings = [
   { id: "mango", name: "Mango", chinese: "芒果", cream: "#fbe3a5", bits: "#f2a93b" },
   { id: "strawberry", name: "Strawberry", chinese: "草莓", cream: "#f8d6d6", bits: "#d9384a" },
 ];
+
+// One-tier sizes. Prices are the standard cake prices for now (to be confirmed by the bakery).
+export const singleTierSizes = [
+  { id: "5-inch", label: '5"', price: 130 },
+  { id: "6-inch", label: '6"', price: 140 },
+  { id: "8-inch", label: '8"', price: 180 },
+  { id: "10-inch", label: '10"', price: 250 },
+];
+
+// Two-tier combinations: the smaller tier always sits on top
+export const twoTierSizes = [
+  { id: "6+8", label: '6" + 8"', top: "6-inch", bottom: "8-inch", price: 350 },
+  { id: "6+10", label: '6" + 10"', top: "6-inch", bottom: "10-inch", price: 400 },
+  { id: "8+10", label: '8" + 10"', top: "8-inch", bottom: "10-inch", price: 450 },
+];
