@@ -57,3 +57,10 @@ test("occasion filter on the catalogue shows matching cakes", async ({ page }) =
   await page.getByRole("button", { name: "Weddings", exact: true }).click();
   await expect(cards).toHaveCount(cakes.filter((cake) => cake.occasions.includes("Weddings")).length);
 });
+
+test("homepage shows customer reviews", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByRole("heading", { name: "What our customers say" })).toBeVisible();
+  await expect(page.locator("figure blockquote")).toHaveCount(require("../../src/data/reviews").reviews.length);
+  await expect(page.getByRole("link", { name: "See the real chats on Instagram" })).toHaveAttribute("href", /instagram\.com/);
+});
