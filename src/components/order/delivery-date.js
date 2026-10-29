@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { promotions } from "@/data/promotions";
@@ -9,8 +9,11 @@ import { formatDate } from "@/lib/order";
 export default function DeliveryDate({ value, onChange }) {
   // The calendar depends on today's date, which differs between the server (UTC) and the
   // customer's browser, so only render it in the browser
-  const [isMounted, setIsMounted] = useState(false);
-  useEffect(() => setIsMounted(true), []);
+  const isMounted = useSyncExternalStore(
+    () => () => {},
+    () => true, // in the browser
+    () => false // on the server
+  );
 
   if (!isMounted) {
     // Same height as the calendar (always six weeks) so the page doesn't jump when it appears
