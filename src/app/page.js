@@ -3,7 +3,8 @@ import Image from "next/image";
 import { ArrowRight, CalendarHeart, Clock, Instagram, MessageCircle, Quote, Truck } from "lucide-react";
 import { cakes, getStartingPrice } from "@/data/cakes";
 import { contactInfo } from "@/data/contact";
-import { reviews, reviewsHighlightUrl } from "@/data/reviews";
+import { reviews } from "@/data/reviews";
+import ReviewChat from "@/components/home/review-chat";
 import PromoCarousel from "@/components/home/promo-carousel";
 import FlamingReveal from "@/components/home/flaming-reveal";
 
@@ -190,13 +191,16 @@ export default function Home() {
                   <p className="mt-2 text-sm italic text-cocoa-soft">&ldquo;{review.translation}&rdquo;</p>
                 )}
               </blockquote>
-              <figcaption className="mt-4 text-sm font-semibold text-sage-deep">{review.cake}</figcaption>
+              <figcaption className="mt-4 flex flex-wrap items-center justify-between gap-2">
+                <span className="text-sm font-semibold text-sage-deep">{review.cake}</span>
+                <ReviewChat screenshot={review.screenshot} cake={review.cake} />
+              </figcaption>
             </figure>
           ))}
         </div>
         <div className="mt-4 text-center">
-          <a href={reviewsHighlightUrl} target="_blank" rel="noopener noreferrer" className="btn-outline">
-            <Instagram size={18} /> See the real chats on Instagram
+          <a href={contactInfo.instagramUrl} target="_blank" rel="noopener noreferrer" className="btn-outline">
+            <Instagram size={18} /> Follow us on Instagram
           </a>
         </div>
       </section>
