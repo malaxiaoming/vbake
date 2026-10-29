@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ReactCompareSlider, ReactCompareSliderImage } from "react-compare-slider";
 import { cakes, getStartingPrice } from "@/data/cakes";
 
-// Scrollable strip of cake photos; tap one to choose it
+// Cake photos to tap: a swipeable strip on phones, a grid on larger screens (mice can't swipe)
 export default function CakePicker({ selectedCake, onSelect }) {
   const stripRef = useRef(null);
   const selectedRef = useRef(null);
@@ -21,8 +21,8 @@ export default function CakePicker({ selectedCake, onSelect }) {
 
   return (
     <div>
-      <div ref={stripRef} className="relative -mx-5 overflow-x-auto px-5 pb-3 no-scrollbar sm:-mx-10 sm:px-10">
-        <div className="flex w-max gap-3" role="group" aria-label="Cakes">
+      <div ref={stripRef} className="relative -mx-5 overflow-x-auto px-5 pb-3 no-scrollbar sm:mx-0 sm:overflow-visible sm:px-0">
+        <div className="flex w-max gap-3 sm:grid sm:w-auto sm:grid-cols-4 md:grid-cols-5" role="group" aria-label="Cakes">
           {cakes.map((cake) => {
             const isSelected = cake.id === selectedCake.id;
             return (
@@ -32,7 +32,7 @@ export default function CakePicker({ selectedCake, onSelect }) {
                 type="button"
                 onClick={() => onSelect(cake)}
                 aria-pressed={isSelected}
-                className={`w-28 shrink-0 overflow-hidden rounded-2xl border-2 bg-white text-left transition-all sm:w-32 ${
+                className={`w-28 shrink-0 overflow-hidden rounded-2xl border-2 bg-white text-left transition-all sm:w-auto ${
                   isSelected ? "border-rose shadow-md" : "border-cocoa/10 hover:border-blush-deep"
                 }`}
               >

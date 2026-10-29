@@ -160,3 +160,17 @@ test("switching cakes keeps prices and flavours valid", async ({ page }) => {
   message = await placeOrder(page);
   expect(message).toContain("- Flavor: Not selected");
 });
+
+test("every cake is visible to pick on larger screens", async ({ page, isMobile }) => {
+  // Phones swipe the cake strip; mouse users can't scroll it sideways, so all cakes must be on screen
+  test.skip(isMobile, "phones use the swipeable strip");
+  await page.goto("/order");
+  const group = page.getByRole("group", { name: "Cakes" });
+  // Nothing hidden off to the side of the cake picker
+  const hiddenOverflow = await group.evaluate((el) => el.parentElement.scrollWidth - el.parentElement.clientWidth);
+  expect(hiddenOverflow).toBeLessThanOrEqual(0);
+  for (const button of await group.getByRole("button").all()) {
+    await button.evaluate((el) => window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 200));
+    await expect(button).toBeInViewport({ ratio: 1 });
+  }
+});
