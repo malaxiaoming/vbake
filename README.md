@@ -2,7 +2,8 @@
 
 Marketing and ordering site for [VBake.KL](https://www.vbakekl.com), a home bakery in Sri Petaling, Kuala Lumpur.
 Customers browse cakes, build an order (cake, flavour, size, delivery date) and send it to the bakery as a
-pre-filled WhatsApp message. There is no backend or database; Vercel deploys `master` automatically.
+pre-filled WhatsApp message. There is no backend or database; Vercel deploys `master` automatically. Work branches named `claude/...`
+are not built by Vercel (`vercel.json`), to stay within the Hobby plan's daily deployment limit.
 
 Built with Next.js (App Router), React and Tailwind CSS.
 
