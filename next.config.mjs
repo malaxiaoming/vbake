@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // These pages still hold sample content; send visitors to the cakes catalogue until they're ready
+  // These pages were removed; keep old links working by sending visitors to the cakes catalogue
   async redirects() {
     return ["/promotions", "/gifts", "/flowers", "/catering"].map((source) => ({
       source,
