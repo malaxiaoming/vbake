@@ -32,6 +32,11 @@ test("cake builder: pick a sponge and filling, preview and WhatsApp message foll
   await page.keyboard.press("ArrowRight");
   await expect(preview).toHaveAttribute("aria-label", "Chocolate sponge with Oreo filling");
 
+  // Drawing style switch
+  await expect(page.getByRole("button", { name: "Crayon" })).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("button", { name: "Soft" }).click();
+  await expect(page.getByRole("button", { name: "Soft" })).toHaveAttribute("aria-pressed", "true");
+
   const href = await page.getByRole("link", { name: "Ask us on WhatsApp" }).getAttribute("href");
   expect(new URL(href).searchParams.get("text")).toContain("Chocolate sponge and Oreo filling");
   expect(errors).toEqual([]);
