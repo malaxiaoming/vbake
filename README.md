@@ -45,6 +45,9 @@ The end-to-end tests in `tests/e2e/` start the production build and check every 
 - `/cakes` and `/cakes/[id]`: catalogue and one page per cake
 - `/order`: order form; `?cakeId=<id>` preselects a cake. Place Order opens WhatsApp with the order details.
 - `/contact`: contact details and a WhatsApp message form
+- `/cake-builder`: experimental "build your cake" page (hidden: not linked, not in the sitemap, `noindex`).
+  Pick one or two tiers, a sponge and filling per tier (iPod-style Cover Flow pickers) with a hand-drawn SVG
+  preview, then a delivery date and details; options and prices are in `src/data/cake-builder.js`.
 
 Old `/promotions`, `/gifts`, `/flowers` and `/catering` links redirect to `/cakes` (see `next.config.mjs`).
 
