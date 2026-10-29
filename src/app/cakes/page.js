@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { cakes, getAllOccasions, getStartingPrice } from "@/data/cakes";
+import { trackPixelEvent } from "@/lib/pixel";
 
 export default function Cakes() {
   const occasions = getAllOccasions();
@@ -13,29 +14,25 @@ export default function Cakes() {
 
   useEffect(() => {
     // Track page view
-    if (typeof window !== 'undefined' && window.fbq) {
-      window.fbq('track', 'ViewContent', {
-        content_name: 'Cakes Catalog',
-        content_category: 'Cakes',
-        content_type: 'Catalog',
-        content_ids: ['cakes-catalog-2025'],
-        value: 0,
-        currency: 'MYR'
-      });
-    }
+    trackPixelEvent('ViewContent', {
+      content_name: 'Cakes Catalog',
+      content_category: 'Cakes',
+      content_type: 'Catalog',
+      content_ids: ['cakes-catalog-2025'],
+      value: 0,
+      currency: 'MYR'
+    });
   }, []);
 
   const handleCakeClick = (cake) => {
-    if (typeof window !== 'undefined' && window.fbq) {
-      window.fbq('track', 'ViewContent', {
-        content_name: cake.name,
-        content_category: 'Cake',
-        content_type: 'Product',
-        content_ids: [`cake-${cake.id}`],
-        value: parseInt(cake.sizes["6-inch"].replace(/[^0-9]/g, '')),
-        currency: 'MYR'
-      });
-    }
+    trackPixelEvent('ViewContent', {
+      content_name: cake.name,
+      content_category: 'Cake',
+      content_type: 'Product',
+      content_ids: [`cake-${cake.id}`],
+      value: parseInt(cake.sizes["6-inch"].replace(/[^0-9]/g, '')),
+      currency: 'MYR'
+    });
   };
 
   return (

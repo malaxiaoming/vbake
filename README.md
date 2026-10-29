@@ -31,10 +31,11 @@ The end-to-end tests in `tests/e2e/` start the production build and check every 
 | --- | --- |
 | Cakes, sizes and prices | `src/data/cakes.js` (`fixedFlavor` locks a cake to one flavour) |
 | Flavours and top-up prices | `src/data/flavors.js` |
-| Add-ons (section currently switched off) | `src/data/addons.js`, `disableAddsOn` in `src/app/order/order-form.js` |
+| Add-ons (section currently switched off) | `src/data/addons.js`, `SHOW_ADDONS` in `src/app/order/order-form.js` |
 | Homepage banners | `src/data/events.js` and `public/images/promotions/` |
 | Phone, email, hours, SSM number | `src/data/contact.js` |
 | Site address for sitemap and share previews | `src/lib/site.js` |
+| Order totals and the WhatsApp message | `src/lib/order.js`, form pieces in `src/components/order/` |
 | Brand colours and fonts | `src/app/globals.css` (`@theme`), `src/app/layout.js` |
 
 ## Pages
