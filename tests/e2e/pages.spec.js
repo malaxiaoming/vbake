@@ -62,5 +62,14 @@ test("homepage shows customer reviews", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "What our customers say" })).toBeVisible();
   await expect(page.locator("figure blockquote")).toHaveCount(require("../../src/data/reviews").reviews.length);
-  await expect(page.getByRole("link", { name: "See the real chats on Instagram" })).toHaveAttribute("href", /instagram\.com/);
+  await expect(page.getByRole("link", { name: "Follow us on Instagram" })).toHaveAttribute("href", "https://instagram.com/vbake.kl");
+
+  // Each review opens its original chat screenshot
+  await page.getByRole("button", { name: "View chat" }).first().click();
+  const dialog = page.getByRole("dialog");
+  const screenshot = dialog.getByRole("img", { name: /WhatsApp message/ });
+  await expect(screenshot).toBeVisible();
+  await expect.poll(() => screenshot.evaluate((img) => img.complete && img.naturalWidth > 0)).toBe(true);
+  await dialog.getByRole("button", { name: "Close" }).click();
+  await expect(dialog).toBeHidden();
 });

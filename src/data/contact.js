@@ -8,6 +8,7 @@ export const contactInfo = {
     whatsappUrl: "https://wa.me/60149308327"
   },
   email: "vbakebaker@gmail.com",
+  instagramUrl: "https://instagram.com/vbake.kl",
   ssm: "202303185489",
   businessHours: {
     weekdays: "8:00 AM - 10:00 PM",
