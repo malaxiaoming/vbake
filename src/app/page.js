@@ -1,8 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, CalendarHeart, Clock, MessageCircle, Truck } from "lucide-react";
+import { ArrowRight, CalendarHeart, Clock, Instagram, MessageCircle, Quote, Truck } from "lucide-react";
 import { cakes, getStartingPrice } from "@/data/cakes";
 import { contactInfo } from "@/data/contact";
+import { reviews, reviewsHighlightUrl } from "@/data/reviews";
 import PromoCarousel from "@/components/home/promo-carousel";
 import FlamingReveal from "@/components/home/flaming-reveal";
 
@@ -169,6 +170,34 @@ export default function Home() {
               Order a Flaming Cake <ArrowRight size={18} />
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* Customer reviews */}
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
+        <div className="text-center">
+          <p className="eyebrow">Kind words</p>
+          <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">What our customers say</h2>
+          <p className="mx-auto mt-4 max-w-lg text-cocoa-soft">Real messages our customers sent us on WhatsApp.</p>
+        </div>
+        <div className="mt-10 gap-6 sm:columns-2 lg:columns-3">
+          {reviews.map((review) => (
+            <figure key={review.cake} className="card mb-6 break-inside-avoid p-6">
+              <Quote size={24} className="text-blush-deep" aria-hidden="true" />
+              <blockquote className="mt-3">
+                <p className="text-lg leading-relaxed">{review.quote}</p>
+                {review.translation && (
+                  <p className="mt-2 text-sm italic text-cocoa-soft">&ldquo;{review.translation}&rdquo;</p>
+                )}
+              </blockquote>
+              <figcaption className="mt-4 text-sm font-semibold text-sage-deep">{review.cake}</figcaption>
+            </figure>
+          ))}
+        </div>
+        <div className="mt-4 text-center">
+          <a href={reviewsHighlightUrl} target="_blank" rel="noopener noreferrer" className="btn-outline">
+            <Instagram size={18} /> See the real chats on Instagram
+          </a>
         </div>
       </section>
 
