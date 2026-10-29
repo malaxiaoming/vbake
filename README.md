@@ -13,12 +13,17 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000. Before opening a pull request, check the production build:
+Open http://localhost:3000. Before opening a pull request, run the same checks as CI:
 
 ```bash
 npm run lint
 npm run build
+npm run test:e2e   # Playwright; first time: npx playwright install chromium
 ```
+
+The end-to-end tests in `tests/e2e/` start the production build and check every page, the order flow
+(flavour rules, prices, delivery date, the WhatsApp message) and the contact form. GitHub Actions
+(`.github/workflows/ci.yml`) runs them on every pull request.
 
 ## Where things live
 
