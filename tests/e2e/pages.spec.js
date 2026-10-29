@@ -73,3 +73,15 @@ test("homepage shows customer reviews", async ({ page }) => {
   await dialog.getByRole("button", { name: "Close" }).click();
   await expect(dialog).toBeHidden();
 });
+
+for (const path of ["/", "/order"]) {
+  test(`${path} answers common questions`, async ({ page }) => {
+    const { faqs } = require("../../src/data/faqs");
+    await page.goto(path);
+    const question = page.getByText(faqs[0].question);
+    await expect(question).toBeVisible();
+    await expect(page.getByText(faqs[0].answer)).toBeHidden();
+    await question.click();
+    await expect(page.getByText(faqs[0].answer)).toBeVisible();
+  });
+}

@@ -5,6 +5,7 @@ import { cakes, getStartingPrice } from "@/data/cakes";
 import { contactInfo } from "@/data/contact";
 import { reviews } from "@/data/reviews";
 import ReviewChat from "@/components/home/review-chat";
+import Faq from "@/components/faq";
 import PromoCarousel from "@/components/home/promo-carousel";
 import FlamingReveal from "@/components/home/flaming-reveal";
 
@@ -16,7 +17,7 @@ const signatureCakes = [
 
 const highlights = [
   { icon: CalendarHeart, title: "Made to order", text: "Every cake baked fresh for your date" },
-  { icon: Truck, title: "Delivery around KL", text: "Free delivery for selected areas" },
+  { icon: Truck, title: "Free local delivery", text: "Around Sri Petaling, OUG & Bukit Jalil" },
   { icon: MessageCircle, title: "Order on WhatsApp", text: "Quick replies, easy changes" },
   { icon: Clock, title: "Open 7 days", text: contactInfo.businessHours.weekdays },
 ];
@@ -235,9 +236,18 @@ export default function Home() {
             ))}
           </ol>
           <p className="mt-8 text-center text-sm text-cocoa-soft">
-            Pre-order is recommended. Same-day delivery is available for selected cakes, so just ask us.
+            Most cakes need 3 to 7 days&apos; notice. Need it sooner? WhatsApp us and we&apos;ll check.
           </p>
         </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="mx-auto max-w-3xl px-4 py-16 sm:px-6 md:py-20">
+        <div className="mb-8 text-center">
+          <p className="eyebrow">Good to know</p>
+          <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Frequently asked questions</h2>
+        </div>
+        <Faq />
       </section>
 
       {/* Call to action */}
