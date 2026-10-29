@@ -22,6 +22,13 @@ export default function CoverFlow({ items, selectedIndex, onSelect, renderItem, 
   const itemRefs = useRef([]);
   const frame = useRef(0);
   const settleTimer = useRef(0);
+  // Item an arrow/tap/key asked for while the strip is still gliding to it; null after a swipe
+  const pendingTarget = useRef(null);
+  // Latest selection and callback, for timers that fire after a later render
+  const latest = useRef({ selectedIndex, onSelect });
+  useEffect(() => {
+    latest.current = { selectedIndex, onSelect };
+  });
 
   // Tilt and shrink each item by its distance from the centre of the strip
   const updateTransforms = useCallback(() => {
@@ -87,6 +94,15 @@ export default function CoverFlow({ items, selectedIndex, onSelect, renderItem, 
     return () => window.removeEventListener("resize", onResize);
   }, [selectedIndex, scrollToIndex, updateTransforms]);
 
+  // Don't let a pending timer act on a strip that has gone (e.g. after switching cake tiers)
+  useEffect(
+    () => () => {
+      clearTimeout(settleTimer.current);
+      cancelAnimationFrame(frame.current);
+    },
+    []
+  );
+
   const handleScroll = () => {
     cancelAnimationFrame(frame.current);
     frame.current = requestAnimationFrame(updateTransforms);
@@ -95,13 +111,26 @@ export default function CoverFlow({ items, selectedIndex, onSelect, renderItem, 
     clearTimeout(settleTimer.current);
     settleTimer.current = setTimeout(() => {
       const index = indexAtCentre();
+      // An arrow/tap already chose the item: keep gliding to it rather than selecting whatever
+      // is in the centre if the animation paused (slow phones)
+      if (pendingTarget.current !== null) {
+        if (index === pendingTarget.current) pendingTarget.current = null;
+        else scrollToIndex(pendingTarget.current);
+        return;
+      }
       scrollToIndex(index);
-      if (index !== selectedIndex) onSelect(index);
+      if (index !== latest.current.selectedIndex) latest.current.onSelect(index);
     }, 120);
+  };
+
+  // A hand swipe or wheel takes over from any arrow/tap target
+  const cancelPendingTarget = () => {
+    pendingTarget.current = null;
   };
 
   const go = (index) => {
     const next = Math.max(0, Math.min(items.length - 1, index));
+    pendingTarget.current = next;
     scrollToIndex(next);
     onSelect(next);
   };
@@ -122,6 +151,9 @@ export default function CoverFlow({ items, selectedIndex, onSelect, renderItem, 
         ref={stripRef}
         onScroll={handleScroll}
         onKeyDown={handleKeyDown}
+        onTouchStart={cancelPendingTarget}
+        onPointerDown={cancelPendingTarget}
+        onWheel={cancelPendingTarget}
         tabIndex={0}
         role="listbox"
         aria-label={label}
