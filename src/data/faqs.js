@@ -8,7 +8,7 @@ export const faqs = [
   {
     question: "How early should I order?",
     answer:
-      "Most cakes need 3 to 7 days. Simpler cakes like our Coriander Cake can be ready sooner, while custom designs with special toppers may need more than a week for us to source the materials. WhatsApp us with your date and we'll confirm what's possible.",
+      "Most cakes need 3 to 7 days, depending on the design. Some custom designs with special toppers may need more than a week while we source the materials. WhatsApp us with your date and we'll confirm what's possible.",
   },
   {
     question: "How do I pay?",
@@ -17,16 +17,11 @@ export const faqs = [
   },
   {
     question: "Can I change or cancel my order?",
-    answer:
-      "Small changes are usually fine at no charge once we've agreed them with you. Switching to a cake in the same price range costs nothing extra; switching to a pricier cake means topping up the difference. Some changes, such as a different cake topper, may need new materials or delivery, and a rush fee may apply. A few changes can't be accommodated, so please talk to us and we'll check case by case.",
+    answer: "Changes and cancellations are handled case by case. WhatsApp us and we'll let you know what's possible.",
   },
   {
     question: "Is a knife and candle included?",
     answer: "Yes, every cake comes with a cake knife and a regular candle.",
-  },
-  {
-    question: "Are your cakes halal or eggless?",
-    answer: "We're not halal-certified, and we don't offer eggless cakes at the moment.",
   },
   {
     question: "What about allergies?",
