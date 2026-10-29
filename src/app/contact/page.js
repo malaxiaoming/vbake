@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import { Phone, MapPin, Clock, Send, Mail } from "lucide-react";
 import { contactInfo } from "@/data/contact";
 
@@ -234,13 +233,13 @@ export default function Contact() {
                 ></textarea>
               </div>
 
-              <Button
+              <button
                 type="submit"
                 className="btn-primary h-auto w-full py-3.5"
               >
                 <Send className="w-5 h-5" />
                 <span>Send via WhatsApp</span>
-              </Button>
+              </button>
             </form>
           </motion.div>
         </div>
