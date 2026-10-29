@@ -33,7 +33,7 @@ The end-to-end tests in `tests/e2e/` start the production build and check every 
 | Flavours and top-up prices | `src/data/flavors.js` |
 | Add-ons (section currently switched off) | `src/data/addons.js`, `SHOW_ADDONS` in `src/app/order/order-form.js` |
 | Homepage banners | `src/data/events.js` and `public/images/promotions/` |
-| Closed / fully booked delivery dates | The bakery's published Google Sheet (Date, Reason); link in `src/lib/blocked-dates.js` |
+| Closed, holiday and fully booked delivery dates | The bakery's published Google Sheet (Date, Reason); link in `src/lib/blocked-dates.js` |
 | Phone, email, hours, SSM number | `src/data/contact.js` |
 | Site address for sitemap and share previews | `src/lib/site.js` |
 | Order totals and the WhatsApp message | `src/lib/order.js`, form pieces in `src/components/order/` |
