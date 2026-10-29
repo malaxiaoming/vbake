@@ -100,7 +100,7 @@ export default function OrderForm({ cakeId }) {
   };
 
   return (
-    <div className="px-3 pb-16 pt-8 sm:px-6 sm:pt-12">
+    <div className="px-3 pb-12 pt-8 sm:px-6 sm:pt-12">
       <div className="text-center">
         <p className="eyebrow">Made fresh for your date</p>
         <h1 className="mt-3 text-4xl font-semibold sm:text-5xl">Order your cake</h1>
