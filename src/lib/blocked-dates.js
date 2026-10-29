@@ -1,7 +1,8 @@
 // Delivery dates the bakery has marked as closed or fully booked, kept in a Google Sheet
 // (File → Share → Publish to web → CSV) with two columns: Date, Reason ("Closed" or "Full").
 // BLOCKED_DATES_CSV_URL can override the sheet, e.g. for tests.
-const SHEET_CSV_URL = "";
+const SHEET_CSV_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRTKmTRKgw5769wvkkC-QNy-Buj4q4NOH82v0tNlX2ESvbV-zqcX75p1SQVxFl8ayuAkpH4Wlt3liDq/pub?gid=0&single=true&output=csv";
 
 const csvUrl = () => process.env.BLOCKED_DATES_CSV_URL || SHEET_CSV_URL;
 
