@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cakeBodies, cakeFillings, singleTierSizes, twoTierSizes } from "@/data/cake-builder";
 import { sizeServings } from "@/data/cakes";
 import { contactInfo } from "@/data/contact";
@@ -90,6 +90,35 @@ export default function CakeBuilder({ blockedDates = {} }) {
   const [customer, setCustomer] = useState({ phone: "", occasion: "", address: "", notes: "" });
   const [phoneError, setPhoneError] = useState("");
   const phoneRef = useRef(null);
+  const [compact, setCompact] = useState(false);
+  const [fullHeight, setFullHeight] = useState(null);
+  const previewRef = useRef(null);
+
+  // Shrink the preview to half size once it's pinned below the menu, so it doesn't hide the pickers.
+  // The pinned box keeps its full height (the empty part lets clicks through), so nothing below jumps.
+  useEffect(() => {
+    const preview = previewRef.current;
+    let frame;
+    let wasPinned = false;
+    const update = () => {
+      frame = null;
+      const pinned = preview.getBoundingClientRect().top <= parseFloat(getComputedStyle(preview).top) + 1;
+      if (pinned === wasPinned) return;
+      // Measure before shrinking, while the preview is still full size
+      if (pinned) setFullHeight(preview.offsetHeight);
+      wasPinned = pinned;
+      setCompact(pinned);
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, []);
 
   const single = singleTierSizes.find((s) => s.id === singleSizeId);
   const twoTier = twoTierSizes.find((s) => s.id === twoTierId);
@@ -141,11 +170,24 @@ export default function CakeBuilder({ blockedDates = {} }) {
 
       {/* Live preview, kept in view while choosing size and flavour */}
       <div>
-      <div className="sticky top-16 z-[300] mt-6 rounded-[2rem] border-2 border-dashed border-cocoa/20 bg-[#fffaf1] px-2 py-3 shadow-sm sm:top-20">
-        <CakePreview tiers={tiers} className="mx-auto max-h-[28vh] w-full max-w-xl" />
-        <p className="text-center font-crayon text-xl text-cocoa">
-          {isTwoTier ? twoTier.label : single.label} · RM {price}
-        </p>
+      <div
+        ref={previewRef}
+        style={{ height: compact && fullHeight ? fullHeight : undefined }}
+        className="pointer-events-none sticky top-16 z-30 mt-6 sm:top-20"
+      >
+        <div
+          className={`pointer-events-auto mx-auto rounded-[2rem] border-2 border-dashed border-cocoa/20 bg-[#fffaf1] px-2 shadow-sm transition-all duration-200 ${
+            compact ? "w-3/5 max-w-sm py-1" : "max-w-3xl py-3"
+          }`}
+        >
+          <CakePreview
+            tiers={tiers}
+            className={`mx-auto w-full max-w-xl transition-[max-height] duration-200 ${compact ? "max-h-[14vh]" : "max-h-[28vh]"}`}
+          />
+          <p className={`text-center font-crayon text-cocoa ${compact ? "text-base" : "text-xl"}`}>
+            {isTwoTier ? twoTier.label : single.label} · RM {price}
+          </p>
+        </div>
       </div>
 
       <Step number={1} title="Choose your size">
