@@ -146,7 +146,8 @@ export default function CoverFlow({ items, selectedIndex, onSelect, renderItem, 
   };
 
   return (
-    <div className="relative">
+    // isolate keeps the items' z-index stacking inside the strip, below the site menu and the preview
+    <div className="relative isolate">
       <div
         ref={stripRef}
         onScroll={handleScroll}

@@ -120,3 +120,17 @@ test("cake builder is hidden from search engines", async ({ page, request }) => 
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
   expect(await (await request.get("/sitemap.xml")).text()).not.toContain("cake-builder");
 });
+
+test("cake builder preview shrinks once pinned and stays below the site menu", async ({ page }) => {
+  await page.goto("/cake-builder");
+  const card = page.locator(".sticky.z-30 > div");
+  const fullHeight = (await card.boundingBox()).height;
+
+  await page.getByRole("listbox", { name: "Filling" }).scrollIntoViewIfNeeded();
+  await expect.poll(async () => (await card.boundingBox()).height).toBeLessThan(fullHeight * 0.7);
+  // The menu bar is drawn on top of the pickers scrolling underneath it
+  expect(await page.evaluate(() => !!document.elementFromPoint(window.innerWidth / 2, 20).closest("nav"))).toBe(true);
+
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await expect.poll(async () => (await card.boundingBox()).height).toBeGreaterThan(fullHeight * 0.95);
+});
